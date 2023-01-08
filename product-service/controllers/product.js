@@ -16,7 +16,7 @@ let getProducts = async (req, res) => {
     hostel = req.user.hostel
 
     ProductModel.find({ hostel: hostel })
-        .populate('hostel category')
+        .populate('hostel category sellerId')
         .exec((err, products) => {
             if (err) {
                 res.send(err)
@@ -35,7 +35,7 @@ let getProductsByCategory = async (req, res) => {
             res.send(err)
         } else {
             ProductModel.find({ hostel: hostel, category: category._id })
-                .populate('hostel category')
+                .populate('hostel category sellerId')
                 .exec((err, products) => {
                     if (err) {
                         res.send(err)
@@ -64,7 +64,7 @@ let buy = async (req, res) => {
     let user = req.user
 
     for (let i = 0; i < products.length; i++) {
-        let product = await ProductModel.findById(products[i]._id)
+        let product = await ProductModel.findById(products[i].product)
         products[i].price = product.price
 
         product.quantity -= products[i].quantity
@@ -77,8 +77,13 @@ let buy = async (req, res) => {
 
     channel.consume('PRODUCT', (data) => {
         let order = JSON.parse(data.content.toString())
-        res.send(order)
-    })
+
+        console.log(order)
+
+        channel.ack(data)
+    }, { noAck: false })
+
+    res.send({ status: "pending", message: "Order successfully placed." })
 }
 
 module.exports = { getProducts, getProductsByCategory, addProduct, buy }

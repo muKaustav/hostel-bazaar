@@ -1,5 +1,7 @@
 const mongoose = require('mongoose')
 
+let hostelDB = mongoose.createConnection(process.env.HOSTEL_DB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+
 const singlePhoneSchema = new mongoose.Schema({
     name: { type: String, required: true },
     number: { type: String, required: true }
@@ -13,4 +15,4 @@ const HostelSchema = mongoose.Schema({
     image: { type: String, required: true },
 }, { timestamps: true })
 
-module.exports = mongoose.model('Hostel', HostelSchema)
+module.exports = hostelDB.model('Hostel', HostelSchema)

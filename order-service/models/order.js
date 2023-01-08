@@ -3,7 +3,7 @@ let Product = require('./product')
 let User = require('./user')
 
 const SingleOrderItemSchema = mongoose.Schema({
-    product: { type: mongoose.Schema.Types.ObjectId, ref: Product },
+    product: { type: mongoose.Schema.Types.ObjectId, ref: Product, required: true },
     quantity: { type: Number, required: true, default: 1 },
 })
 

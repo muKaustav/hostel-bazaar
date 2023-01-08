@@ -1,6 +1,7 @@
 require('dotenv').config()
 const cors = require('cors')
 const express = require('express')
+const orderRoute = require('./routes/order')
 require('./database/db').connect()
 require('./rabbitmq/consumer').connect()
 require('./auth/passport')
@@ -18,6 +19,8 @@ app.get('/', (req, res) => {
         ip: req.ip
     })
 })
+
+app.use('/order', orderRoute)
 
 app.get('*', (req, res) => {
     res.redirect('/')
