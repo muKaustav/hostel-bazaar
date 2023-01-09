@@ -2,6 +2,7 @@ require('dotenv').config()
 const cors = require('cors')
 const express = require('express')
 const hostelRoutes = require('./routes/hostel')
+const collegeRoutes = require('./routes/college')
 const categoryRoutes = require('./routes/category')
 require('./auth/passport')
 
@@ -20,6 +21,7 @@ app.get('/', (req, res) => {
 })
 
 app.use('/hostel', hostelRoutes)
+app.use('/college', collegeRoutes)
 app.use('/category', categoryRoutes)
 
 app.get('*', (req, res) => {

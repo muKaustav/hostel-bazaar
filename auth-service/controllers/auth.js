@@ -33,7 +33,7 @@ let login = async (req, res, next) => {
                             })
                         }
 
-                        let payload = { _id: user._id, email: user.email, role: user.role, hostel: user.hostel, room_number: user.room_number }
+                        let payload = { _id: user._id, email: user.email, role: user.role, college: user.college, hostel: user.hostel, room_number: user.room_number }
                         let accessToken = generateAccessToken(payload)
 
                         return res.status(200).send({

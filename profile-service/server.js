@@ -1,7 +1,9 @@
 require('dotenv').config()
 const cors = require('cors')
 const express = require('express')
-const authRoute = require('./routes/auth')
+const cartRoute = require('./routes/auth')
+const savedRoute = require('./routes/saved')
+const userRoute = require('./routes/user')
 require('./database/db').connect()
 require('./auth/passport')
 
@@ -19,7 +21,9 @@ app.get('/', (req, res) => {
     })
 })
 
-app.use('/auth', authRoute)
+app.use('/cart', cartRoute)
+app.use('/saved', savedRoute)
+app.use('/user', userRoute)
 
 app.get('*', (req, res) => {
     res.redirect('/')

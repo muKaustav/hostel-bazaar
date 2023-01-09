@@ -8,6 +8,7 @@ const singlePhoneSchema = new mongoose.Schema({
 const HostelSchema = mongoose.Schema({
     name: { type: String, required: true },
     address: { type: String, required: true },
+    college: { type: mongoose.Schema.Types.ObjectId, ref: 'College', required: true },
     phoneNumbers: [singlePhoneSchema],
     description: { type: String, required: true },
     image: { type: String, required: true },

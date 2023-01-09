@@ -2,6 +2,7 @@ const bcrypt = require("bcryptjs")
 const mongoose = require("mongoose")
 const validator = require('validator')
 let Hostel = require('./hostel')
+let College = require('./college')
 
 let UserDB = mongoose.createConnection(process.env.USER_DB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
 
@@ -32,6 +33,8 @@ const UserSchema = new mongoose.Schema({
     profile_image: { type: String, default: "default.jpg" },
 
     hostel: { type: mongoose.Schema.Types.ObjectId, ref: Hostel, required: true },
+
+    college: { type: mongoose.Schema.Types.ObjectId, ref: College, required: true },
 
     role: { type: String, enum: ["USER", "ADMIN"], default: "USER" },
 

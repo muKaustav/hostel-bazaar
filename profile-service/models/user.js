@@ -30,6 +30,8 @@ const UserSchema = new mongoose.Schema({
 
     hostel: { type: mongoose.Schema.Types.ObjectId, ref: "Hostel", required: true },
 
+    college: { type: mongoose.Schema.Types.ObjectId, ref: "College", required: true },
+
     role: { type: String, enum: ["USER", "ADMIN"], default: "USER" },
 
     room_number: { type: String },

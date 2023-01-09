@@ -5,6 +5,6 @@ const HostelController = require('../controllers/hostel')
 const router = express.Router()
 
 router.get('/', HostelController.getHostels)
-router.post('/', passport.authenticate('jwt', { session: false }), HostelController.addHostel)
+router.post('/', HostelController.addHostel)
 
 module.exports = router
