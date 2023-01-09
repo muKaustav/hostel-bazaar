@@ -17,7 +17,7 @@ let getOrder = (req, res) => {
             .exec((err, order) => {
                 if (err) {
                     return res.status(500).send
-                } else if (order.length === 0) {
+                } else if (!order) {
                     return res.status(404).send('Not Found')
                 } else if (userRole === 'ADMIN') {
                     return res.status(200).send(order)
@@ -89,7 +89,7 @@ let getAllOrders = (req, res) => {
 
 let editOrderStatus = (req, res) => {
     let status = req.body.status
-    let orderId = req.body.orderId 
+    let orderId = req.body.orderId
 
     if (status === 'completed' || status === 'cancelled') {
         try {
