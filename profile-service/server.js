@@ -1,7 +1,7 @@
 require('dotenv').config()
 const cors = require('cors')
 const express = require('express')
-const cartRoute = require('./routes/auth')
+const cartRoute = require('./routes/cart')
 const savedRoute = require('./routes/saved')
 const userRoute = require('./routes/user')
 require('./database/db').connect()
