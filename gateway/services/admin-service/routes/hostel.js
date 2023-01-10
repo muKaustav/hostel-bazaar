@@ -12,7 +12,7 @@ router.get('/', (req, res) => {
     })
 })
 
-router.get('/', HostelController.getHostels)
+router.get('/all', HostelController.getHostels)
 router.post('/', HostelController.addHostel)
 
 router.get('*', (req, res) => {

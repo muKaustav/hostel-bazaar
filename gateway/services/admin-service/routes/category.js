@@ -12,7 +12,7 @@ router.get('/', (req, res) => {
     })
 })
 
-router.get('/', CategoryController.getCategories)
+router.get('/all', CategoryController.getCategories)
 router.post('/', CategoryController.addCategory)
 
 router.get('*', (req, res) => {
