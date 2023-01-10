@@ -1,7 +1,7 @@
 module.exports = {
     apps: [{
         name: "admin",
-        script: "./admin-service/server.js",
+        script: "./gateway/services/admin-service/server.js",
         watch: true,
         env: {
             NODE_ENV: "production",
@@ -13,7 +13,7 @@ module.exports = {
         }
     }, {
         name: "auth",
-        script: "./auth-service/server.js",
+        script: "./gateway/services/auth-service/server.js",
         watch: true,
         env: {
             NODE_ENV: "production",
@@ -33,7 +33,7 @@ module.exports = {
         }
     }, {
         name: "order",
-        script: "./order-service/server.js",
+        script: "./gateway/services/order-service/server.js",
         watch: true,
         env: {
             NODE_ENV: "production",
@@ -48,7 +48,7 @@ module.exports = {
         }
     }, {
         name: "product",
-        script: "./product-service/server.js",
+        script: "./gateway/services/product-service/server.js",
         watch: true,
         env: {
             NODE_ENV: "production",
@@ -61,7 +61,7 @@ module.exports = {
         }
     }, {
         name: "profile",
-        script: "./profile-service/server.js",
+        script: "./gateway/services/profile-service/server.js",
         watch: true,
         env: {
             NODE_ENV: "production",
