@@ -1,0 +1,93 @@
+http:
+  port: 8080
+admin:
+  port: 9876
+  host: localhost
+apiEndpoints:
+  api:
+    host: localhost
+    paths: '/ip'
+  admin:
+    host: localhost
+    paths: '/admin*'
+  auth:
+    methods: 'GET,POST,DELETE'
+    host: localhost
+    paths: '/auth*'
+  order:
+    host: localhost
+    paths: '/order*'
+  product:
+    host: localhost
+    paths: '/product*'
+  profile:
+    host: localhost
+    paths: '/profile*'
+serviceEndpoints:
+  httpbin:
+    url: 'https://httpbin.org'
+  authService:
+    url: 'http://localhost:5001'
+  productService:
+    url: 'http://localhost:5002'
+  orderService:
+    url: 'http://localhost:5003'
+  profileService:
+    url: 'http://localhost:5004'
+  adminService:
+    url: 'http://localhost:5005'
+policies:
+  - basic-auth
+  - cors
+  - expression
+  - key-auth
+  - log
+  - oauth2
+  - proxy
+  - rate-limit
+pipelines:
+  default:
+    apiEndpoints:
+      - api
+    policies:
+      # Uncomment `key-auth:` when instructed to in the Getting Started guide.
+      # - key-auth:
+      - proxy:
+          - action:
+              serviceEndpoint: httpbin
+              changeOrigin: true
+  admin:
+    apiEndpoints:
+      - admin
+    policies:
+      - proxy:
+          - action:
+              serviceEndpoint: adminService
+  auth:
+    apiEndpoints:
+      - auth
+    policies:
+      - proxy:
+          - action:
+              serviceEndpoint: authService
+  order:
+    apiEndpoints:
+      - order
+    policies:
+      - proxy:
+          - action:
+              serviceEndpoint: orderService
+  product:
+    apiEndpoints:
+      - product
+    policies:
+      - proxy:
+          - action:
+              serviceEndpoint: productService
+  profile:
+    apiEndpoints:
+      - profile
+    policies:
+      - proxy:
+          - action:
+              serviceEndpoint: profileService
