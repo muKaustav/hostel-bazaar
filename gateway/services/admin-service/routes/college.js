@@ -12,7 +12,7 @@ router.get('/', (req, res) => {
     })
 })
 
-router.get('/', CollegeController.getColleges)
+router.get('/all', CollegeController.getColleges)
 router.post('/', CollegeController.addCollege)
 
 router.get('*', (req, res) => {
