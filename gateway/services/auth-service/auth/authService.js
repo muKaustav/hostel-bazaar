@@ -49,7 +49,8 @@ let refresh = async (req, res) => {
             return res.status(200).send({
                 success: true,
                 message: 'Refresh token generated.',
-                accessToken: "Bearer " + accessToken
+                accessToken: "Bearer " + accessToken,
+                refreshToken: newRefreshToken
             })
         })
 }
