@@ -13,9 +13,9 @@ app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-app.use('/order/cart', cartRoute)
-app.use('/order/saved', savedRoute)
-app.use('/order/user', userRoute)
+app.use('/profile/cart', cartRoute)
+app.use('/profile/saved', savedRoute)
+app.use('/profile/user', userRoute)
 
 PORT = process.env.PORT || 5004
 
