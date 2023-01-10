@@ -72,5 +72,9 @@ module.exports = {
             CATEGORY_DB_URI: 'mongodb+srv://access:access2022@cluster0.rphmddt.mongodb.net/hb-products',
             COLLEGE_DB_URI: 'mongodb+srv://access:access2022@cluster0.rphmddt.mongodb.net/hb-profile'
         }
+    }, {
+        name: "gateway",
+        script: "./gateway/server.js",
+        watch: true
     }]
 }
