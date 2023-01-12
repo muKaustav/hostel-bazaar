@@ -33,8 +33,10 @@ let getProducts = async (req, res) => {
             if (err) {
                 res.send(err)
             } else if (products) { // Cache hit
+                console.log("Cache hit")
                 res.send(JSON.parse(products))
             } else { // Cache miss
+                console.log("Cache miss")
                 ProductModel.find({ hostel: hostel })
                     .populate('hostel category sellerId')
                     .exec((err, products) => {
