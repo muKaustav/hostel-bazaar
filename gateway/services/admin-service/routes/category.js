@@ -1,5 +1,4 @@
 const express = require('express')
-const passport = require('passport')
 const CategoryController = require('../controllers/category')
 
 const router = express.Router()
