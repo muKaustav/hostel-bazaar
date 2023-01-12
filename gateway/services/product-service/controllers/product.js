@@ -1,7 +1,18 @@
+const redis = require('redis')
 const ProductModel = require('../models/product')
 const CategoryModel = require('../models/category')
 let amqp = require('amqplib')
 let channel
+
+let redisClient = redis.createClient({
+    legacyMode: true,
+    socket: {
+        port: process.env.REDIS_PORT,
+        host: process.env.REDIS_HOST
+    }
+})
+
+redisClient.connect().catch(console.error)
 
 let connect = async () => {
     let amqpServer = await amqp.connect(process.env.RABBITMQ_URI)
@@ -15,36 +26,66 @@ connect()
 let getProducts = async (req, res) => {
     hostel = req.user.hostel
 
-    ProductModel.find({ hostel: hostel })
-        .populate('hostel category sellerId')
-        .exec((err, products) => {
+    let cacheKey = `products_${hostel}`
+
+    try {
+        redisClient.get(cacheKey, async (err, products) => {
             if (err) {
                 res.send(err)
-            } else {
-                res.send(products)
+            } else if (products) { // Cache hit
+                res.send(JSON.parse(products))
+            } else { // Cache miss
+                ProductModel.find({ hostel: hostel })
+                    .populate('hostel category sellerId')
+                    .exec((err, products) => {
+                        if (err) {
+                            res.send(err)
+                        } else {
+                            redisClient.setEx(cacheKey, 60, JSON.stringify(products))
+                            res.send(products)
+                        }
+                    })
             }
         })
+    } catch (err) {
+        res.status(500).send(err)
+    }
 }
 
 let getProductsByCategory = async (req, res) => {
     hostel = req.user.hostel
     category = req.params.category
 
-    CategoryModel.findOne({ name: category }, (err, category) => {
-        if (err) {
-            res.send(err)
-        } else {
-            ProductModel.find({ hostel: hostel, category: category._id })
-                .populate('hostel category sellerId')
-                .exec((err, products) => {
+    let cacheKey = `products_${hostel}_${category}`
+
+    try {
+        redisClient.get(cacheKey, async (err, products) => {
+            if (err) {
+                res.send
+            } else if (products) { // Cache hit
+                res.send(JSON.parse(products))
+            } else { // Cache miss
+                CategoryModel.findOne({ name: category }, (err, category) => {
                     if (err) {
                         res.send(err)
                     } else {
-                        res.send(products)
+                        ProductModel.find({ hostel: hostel, category: category._id })
+                            .populate('hostel category sellerId')
+                            .exec((err, products) => {
+                                if (err) {
+                                    res.send(err)
+                                } else {
+                                    redisClient.setEx(cacheKey, 60, JSON.stringify(products))
+                                    res.send(products)
+                                }
+                            })
                     }
                 })
-        }
-    })
+            }
+        })
+    } catch (err) {
+        res.status(500).send(err)
+    }
 }
 
 let addProduct = async (req, res) => {
@@ -54,6 +95,16 @@ let addProduct = async (req, res) => {
         if (err) {
             res.send(err)
         } else {
+            // Clear cache
+            redisClient.keys(`products_${product.hostel}*`, (err, keys) => {
+                if (err) {
+                    console.log(err)
+                } else {
+                    keys.forEach((key) => {
+                        redisClient.del(key)
+                    })
+                }
+            })
             res.send(product)
         }
     })
