@@ -8,19 +8,19 @@ apiEndpoints:
     host: localhost
     paths: '/ip'
   admin:
-    host: 'localhost'
+    host: '43.204.97.118'
     paths: '/admin*'
   auth:
-    host: 'localhost'
+    host: '43.204.97.118'
     paths: '/auth*'
   order:
-    host: 'localhost'
+    host: '43.204.97.118'
     paths: '/order*'
   product:
-    host: 'localhost'
+    host: '43.204.97.118'
     paths: '/product*'
   profile:
-    host: 'localhost'
+    host: '43.204.97.118'
     paths: '/profile*'
 serviceEndpoints:
   httpbin:
