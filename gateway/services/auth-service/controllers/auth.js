@@ -39,7 +39,7 @@ let login = async (req, res, next) => {
                         console.log({
                             success: true,
                             message: 'Successfully logged in.',
-                            user: user_id,
+                            user: user._id,
                         })
 
                         return res.status(200).send({

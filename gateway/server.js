@@ -1,5 +1,10 @@
 const path = require('path')
 const gateway = require('express-gateway')
+// require('./services/admin-service/server')
+// require('./services/auth-service/server')
+// require('./services/order-service/server')
+// require('./services/product-service/server')
+// require('./services/profile-service/server')
 
 gateway()
   .load(path.join(__dirname, 'config'))
