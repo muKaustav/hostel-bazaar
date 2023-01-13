@@ -12,8 +12,11 @@ router.get('/', (req, res) => {
     })
 })
 
+router.get('/search/:query', passport.authenticate('jwt', { session: false }), productController.search)
 router.get('/all', passport.authenticate('jwt', { session: false }), productController.getProducts)
-router.get('/:category', passport.authenticate('jwt', { session: false }), productController.getProductsByCategory)
+router.get('/category/:category', passport.authenticate('jwt', { session: false }), productController.getProductsByCategory)
+router.get('/:productId', passport.authenticate('jwt', { session: false }), productController.getProduct)
+// router.get('/seller/:sellerId', passport.authenticate('jwt', { session: false }), productController.getProductsBySeller)
 router.post('/', passport.authenticate('jwt', { session: false }), productController.addProduct)
 router.post('/buy', passport.authenticate('jwt', { session: false }), productController.buy)
 

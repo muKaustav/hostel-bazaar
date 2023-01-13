@@ -37,6 +37,8 @@ const ProductSchema = new mongoose.Schema({
         required: [true, 'Please provide product quantity'],
     },
 
+    visits: { type: Number, default: 0 },
+
     hostel: { type: mongoose.Schema.Types.ObjectId, ref: Hostel, required: true },
 
     sellerId: { type: mongoose.Schema.Types.ObjectId, ref: User, required: true },

@@ -1,6 +1,7 @@
 const redis = require('redis')
 const ProductModel = require('../models/product')
 const CategoryModel = require('../models/category')
+let { jobQueue } = require('../../../jobQueue')
 let amqp = require('amqplib')
 let channel
 
@@ -90,6 +91,37 @@ let getProductsByCategory = async (req, res) => {
     }
 }
 
+let getProduct = async (req, res) => {
+    let productId = req.params.productId
+
+    let cacheKey = `product_${productId}`
+
+    try {
+        redisClient.get(cacheKey, async (err, product) => {
+            if (err) {
+                res.send(err)
+            } else if (product) { // Cache hit
+                jobQueue.enqueue(productId)
+                res.send(JSON.parse(product))
+            } else { // Cache miss
+                ProductModel.findOneAndUpdate
+                    ({ _id: productId }, { $inc: { visits: 1 } }, { new: true })
+                    .populate('hostel category sellerId')
+                    .exec((err, product) => {
+                        if (err) {
+                            res.send(err)
+                        } else {
+                            redisClient.setEx(cacheKey, 20, JSON.stringify(product))
+                            res.send(product)
+                        }
+                    })
+            }
+        })
+    } catch (err) {
+        res.status(500).send(err)
+    }
+}
+
 let addProduct = async (req, res) => {
     let product = new ProductModel(req.body)
 
@@ -110,6 +142,45 @@ let addProduct = async (req, res) => {
             res.send(product)
         }
     })
+}
+
+let search = async (req, res) => {
+    let hostel = req.user.hostel
+    let query = req.params.query
+
+    let cacheKey = `products_${hostel}_${query}`
+
+    try {
+        redisClient.get(cacheKey, async (err, products) => {
+            if (err) {
+                res.send(err)
+            } else if (products) { // Cache hit
+                res.send(JSON.parse(products))
+            } else { // Cache miss
+                ProductModel.aggregate([{
+                    "$search": {
+                        "autocomplete": {
+                            "query": query,
+                            "path": "name",
+                            "fuzzy": {
+                                "maxEdits": 2,
+                                "maxExpansions": 100
+                            }
+                        }
+                    }
+                }]).exec((err, products) => {
+                    if (err) {
+                        res.send(err)
+                    } else {
+                        redisClient.setEx(cacheKey, 60, JSON.stringify(products))
+                        res.send(products)
+                    }
+                })
+            }
+        })
+    } catch (err) {
+        res.status(500).send(err)
+    }
 }
 
 let buy = async (req, res) => {
@@ -139,4 +210,4 @@ let buy = async (req, res) => {
     res.send({ status: "pending", message: "Order successfully placed." })
 }
 
-module.exports = { getProducts, getProductsByCategory, addProduct, buy }
+module.exports = { getProducts, getProductsByCategory, getProduct, addProduct, buy, search }

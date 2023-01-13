@@ -12,8 +12,9 @@ router.get('/', (req, res) => {
     })
 })
 
-router.get('/all', passport.authenticate('jwt', { session: false }), orderController.getAllOrders)
 router.get('/me', passport.authenticate('jwt', { session: false }), orderController.getOrders)
+router.get('/all', passport.authenticate('jwt', { session: false }), orderController.getAllOrders)
+router.get('/last/:n', passport.authenticate('jwt', { session: false }), orderController.lastNOrders)
 router.get('/:orderId', passport.authenticate('jwt', { session: false }), orderController.getOrder)
 router.put('/editStatus', passport.authenticate('jwt', { session: false }), orderController.editOrderStatus)
 
