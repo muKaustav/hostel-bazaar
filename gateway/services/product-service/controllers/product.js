@@ -44,7 +44,7 @@ let getProducts = async (req, res) => {
                         if (err) {
                             res.send(err)
                         } else {
-                            redisClient.setEx(cacheKey, 60, JSON.stringify(products))
+                            redisClient.setEx(cacheKey, 10, JSON.stringify(products))
                             res.send(products)
                         }
                     })
@@ -78,7 +78,7 @@ let getProductsByCategory = async (req, res) => {
                                 if (err) {
                                     res.send(err)
                                 } else {
-                                    redisClient.setEx(cacheKey, 60, JSON.stringify(products))
+                                    redisClient.setEx(cacheKey, 10, JSON.stringify(products))
                                     res.send(products)
                                 }
                             })
@@ -111,7 +111,7 @@ let getProduct = async (req, res) => {
                         if (err) {
                             res.send(err)
                         } else {
-                            redisClient.setEx(cacheKey, 20, JSON.stringify(product))
+                            redisClient.setEx(cacheKey, 10, JSON.stringify(product))
                             res.send(product)
                         }
                     })
@@ -139,6 +139,7 @@ let addProduct = async (req, res) => {
                     })
                 }
             })
+
             res.send(product)
         }
     })
@@ -172,7 +173,7 @@ let search = async (req, res) => {
                     if (err) {
                         res.send(err)
                     } else {
-                        redisClient.setEx(cacheKey, 60, JSON.stringify(products))
+                        redisClient.setEx(cacheKey, 10, JSON.stringify(products))
                         res.send(products)
                     }
                 })

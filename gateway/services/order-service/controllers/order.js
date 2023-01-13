@@ -45,7 +45,7 @@ let getOrder = (req, res) => {
                             return res.status(401).send('Unauthorized')
                         }
 
-                        redisClient.setEx(cacheKey, 60, JSON.stringify(order))
+                        redisClient.setEx(cacheKey, 10, JSON.stringify(order))
                         return res.status(200).send(order)
                     }
                     )
@@ -80,7 +80,7 @@ let getOrders = (req, res) => {
                         if (err) {
                             return res.status(500).send
                         } else if (orders.length === 0) {
-                            redisClient.setEx(cacheKey, 60, JSON.stringify(orders))
+                            redisClient.setEx(cacheKey, 10, JSON.stringify(orders))
                             return res.status(404).send('Not Found')
                         }
 
@@ -172,7 +172,7 @@ let lastNOrders = (req, res) => {
                         } else if (products.length === 0) {
                             return res.status(404).send('Not Found')
                         } else {
-                            redisClient.setEx(cacheKey, 60, JSON.stringify(products))
+                            redisClient.setEx(cacheKey, 10, JSON.stringify(products))
                             return res.status(200).send(products)
                         }
                     })
