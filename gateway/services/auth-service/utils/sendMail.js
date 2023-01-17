@@ -13,7 +13,7 @@ let sendMail = (email, uniqueString) => {
         from: "Hostel Bazaar",
         to: email,
         subject: "Hostel Bazaar | Verification Email",
-        html: "Click <a href=http://localhost:" + process.env.PORT + "/auth/verify/" + uniqueString + "> here</a> to verify your email. Thanks!"
+        html: "Click <a href=http://" + process.env.IP  + "/auth/verify/" + uniqueString + "> here</a> to verify your email. Thanks!"
     }
 
     Transport.sendMail(mailOptions, (error, response) => {
