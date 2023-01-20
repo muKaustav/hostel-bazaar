@@ -83,7 +83,11 @@ module.exports = {
             TWILIO_AUTH_TOKEN: '43dc4e2cfe386216fbfbeb0acab644ab',
             TWILIO_VERIFY_SERVICE_SID: 'VAdcee4bdb8fa795d7019bb6e6bc2718ef'
         }
+<<<<<<< HEAD
     }, {
+=======
+    },{
+>>>>>>> f806fc1 (psuh from ec2)
         name: "gateway",
         script: "./gateway/server.js",
         watch: true
