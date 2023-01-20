@@ -1,6 +1,7 @@
 const redis = require('redis')
 const ProductModel = require('../models/product')
 const CategoryModel = require('../models/category')
+let OrderModel = require('../models/order')
 let { jobQueue } = require('../../../jobQueue')
 let amqp = require('amqplib')
 let channel
@@ -185,7 +186,7 @@ let search = async (req, res) => {
 }
 
 let buy = async (req, res) => {
-    let data = JSON.parse(JSON.parse(JSON.stringify(req.rawBody))) 
+    let data = JSON.parse(JSON.parse(JSON.stringify(req.rawBody)))
     let products = data.products
     let user = req.user
 
@@ -209,7 +210,11 @@ let buy = async (req, res) => {
         channel.ack(data)
     }, { noAck: false })
 
-    res.send({ status: "pending", message: "Order successfully placed." })
+    let order = await OrderModel.findOne({ user: user._id })
+        .sort({ _id: -1 })
+        .limit(1)
+    
+    res.send({ status: "pending", message: "Order successfully placed.", order: order })
 }
 
 module.exports = { getProducts, getProductsByCategory, getProduct, addProduct, buy, search }
