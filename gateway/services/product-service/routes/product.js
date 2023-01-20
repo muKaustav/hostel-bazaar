@@ -1,5 +1,6 @@
 const express = require('express')
 const passport = require('passport')
+let rawReader = require('../middlewares/raw-reader')
 const productController = require('../controllers/product')
 
 const router = express.Router()
@@ -18,7 +19,7 @@ router.get('/category/:category', passport.authenticate('jwt', { session: false 
 router.get('/:productId', passport.authenticate('jwt', { session: false }), productController.getProduct)
 // router.get('/seller/:sellerId', passport.authenticate('jwt', { session: false }), productController.getProductsBySeller)
 router.post('/', passport.authenticate('jwt', { session: false }), productController.addProduct)
-router.post('/buy', passport.authenticate('jwt', { session: false }), productController.buy)
+router.post('/buy', passport.authenticate('jwt', { session: false }), rawReader, productController.buy)
 
 router.get('*', (req, res) => {
     res.redirect('/product')

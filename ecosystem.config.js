@@ -73,6 +73,16 @@ module.exports = {
             COLLEGE_DB_URI: 'mongodb+srv://access:access2022@cluster0.rphmddt.mongodb.net/hb-profile'
         }
     }, {
+        name: "otp",
+        script: "./gateway/services/otp-service/server.js",
+        watch: true,
+        env: {
+            NODE_ENV: "production",
+            TWILIO_ACCOUNT_SID: 'AC3f60528aa17c60d8eed794efe9f46204',
+            TWILIO_AUTH_TOKEN: '43dc4e2cfe386216fbfbeb0acab644ab',
+            TWILIO_VERIFY_SERVICE_SID: 'VAdcee4bdb8fa795d7019bb6e6bc2718ef'
+        }
+    }, {
         name: "gateway",
         script: "./gateway/server.js",
         watch: true

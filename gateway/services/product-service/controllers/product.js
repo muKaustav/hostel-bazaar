@@ -185,7 +185,8 @@ let search = async (req, res) => {
 }
 
 let buy = async (req, res) => {
-    let products = req.body.products
+    let data = JSON.parse(JSON.parse(JSON.stringify(req.rawBody))) 
+    let products = data.products
     let user = req.user
 
     for (let i = 0; i < products.length; i++) {
