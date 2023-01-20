@@ -213,7 +213,7 @@ let buy = async (req, res) => {
     let order = await OrderModel.findOne({ user: user._id })
         .sort({ _id: -1 })
         .limit(1)
-    
+
     res.send({ status: "pending", message: "Order successfully placed.", order: order })
 }
 
