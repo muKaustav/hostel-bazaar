@@ -15,8 +15,6 @@ connect().then(() => {
 
         let amount = 0
 
-        console.log("Products: ", products)
-
         products.forEach((product) => {
             amount += product.price * product.quantity
         })
@@ -29,13 +27,9 @@ connect().then(() => {
         })
 
         newOrder.save()
-
-        console.log("New Order: ", newOrder)
-
         channel.ack(data)
-
         channel.sendToQueue('PRODUCT', Buffer.from(JSON.stringify({ newOrder })))
-    }, { noAck: false })
+    })
 })
 
 module.exports = { connect }

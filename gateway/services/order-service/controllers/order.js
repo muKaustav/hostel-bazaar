@@ -166,6 +166,12 @@ let lastNOrders = (req, res) => {
                     .sort({ createdAt: -1 })
                     .limit(parseInt(n))
                     .populate('items.product')
+                    .populate({
+                        path: 'items.product',
+                        populate: {
+                            path: 'sellerId'
+                        }
+                    })
                     .exec((err, products) => {
                         if (err) {
                             return res.status(500).send(err)

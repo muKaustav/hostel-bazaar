@@ -4,7 +4,7 @@ const CategoryModel = require('../models/category')
 let OrderModel = require('../models/order')
 let { jobQueue } = require('../../../jobQueue')
 let amqp = require('amqplib')
-let channel
+var channel, orderId
 
 let redisClient = redis.createClient({
     legacyMode: true,
@@ -20,7 +20,7 @@ let connect = async () => {
     let amqpServer = await amqp.connect(process.env.RABBITMQ_URI)
     channel = await amqpServer.createChannel()
 
-    await channel.assertQueue('PRODUCT', { durable: true })
+    await channel.assertQueue('PRODUCT')
 }
 
 connect()
@@ -198,23 +198,15 @@ let buy = async (req, res) => {
         product.save()
     }
 
-    console.log(products, user)
-
     channel.sendToQueue('ORDER', Buffer.from(JSON.stringify({ products, user })))
 
     channel.consume('PRODUCT', (data) => {
-        let order = JSON.parse(data.content.toString())
-
-        console.log(order)
-
+        let recivedOrderAcknowledgment = JSON.parse(data.content.toString())
+        console.log(recivedOrderAcknowledgment)
         channel.ack(data)
-    }, { noAck: false })
-
-    let order = await OrderModel.findOne({ user: user._id })
-        .sort({ _id: -1 })
-        .limit(1)
-
-    res.send({ status: "pending", message: "Order successfully placed.", order: order })
+    }).then(() => {
+        res.send({ message: "Order placed successfully", status: 200 })
+    })
 }
 
 module.exports = { getProducts, getProductsByCategory, getProduct, addProduct, buy, search }
