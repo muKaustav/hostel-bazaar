@@ -189,4 +189,43 @@ let lastNOrders = (req, res) => {
     }
 }
 
-module.exports = { getOrder, getOrders, getAllOrders, editOrderStatus, lastNOrders }
+let lastNOrdersByUser = (req, res) => {
+    let n = req.params.n
+
+    let cacheKey = `last_n_orders_of_user_${n}` + `_userId_${req.user._id}`
+
+    try {
+        redisClient.get(cacheKey, async (err, products) => {
+            if (err) {
+                return res.status(500).send(err)
+            } else if (products) { // Cache hit
+                return res.send(JSON.parse(products))
+            } else { // Cache miss
+                OrderModel.find({ userId: req.user._id })
+                    .sort({ createdAt: -1 })
+                    .limit(parseInt(n))
+                    .populate('items.product')
+                    .populate({
+                        path: 'items.product',
+                        populate: {
+                            path: 'sellerId'
+                        }
+                    })
+                    .exec((err, products) => {
+                        if (err) {
+                            return res.status(500).send(err)
+                        } else if (products.length === 0) {
+                            return res.status(404).send('Not Found')
+                        } else {
+                            redisClient.setEx(cacheKey, 10, JSON.stringify(products))
+                            return res.status(200).send(products)
+                        }
+                    })
+            }
+        })
+    } catch (err) {
+        res.status(500).send
+    }
+}
+
+module.exports = { getOrder, getOrders, getAllOrders, editOrderStatus, lastNOrders, lastNOrdersByUser }
