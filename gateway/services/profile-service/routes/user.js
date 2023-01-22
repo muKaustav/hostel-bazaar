@@ -12,7 +12,7 @@ router.get('/', (req, res) => {
     })
 })
 
-router.get('/', passport.authenticate('jwt', { session: false }), userController.getUsers) // ADMIN
+router.get('/me', passport.authenticate('jwt', { session: false }), userController.getUsers) // ADMIN
 
 router.get('*', (req, res) => {
     res.redirect('/profile')

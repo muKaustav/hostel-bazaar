@@ -12,8 +12,8 @@ router.get('/', (req, res) => {
     })
 })
 
-router.get('/', passport.authenticate('jwt', { session: false }), cartController.getCarts) // ADMIN
-router.post('/', passport.authenticate('jwt', { session: false }), cartController.addCart) // ADMIN
+router.get('/me', passport.authenticate('jwt', { session: false }), cartController.getCarts) // ADMIN
+router.post('/me', passport.authenticate('jwt', { session: false }), cartController.addCart) // ADMIN
 router.post('/add', passport.authenticate('jwt', { session: false }), cartController.addItemToCart) // USER
 router.post('/delete', passport.authenticate('jwt', { session: false }), cartController.deleteItemFromCart) // USER
 router.put('/update', passport.authenticate('jwt', { session: false }), cartController.updateQuantity) // USER

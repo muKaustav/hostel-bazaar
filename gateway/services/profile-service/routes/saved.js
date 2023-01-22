@@ -12,8 +12,8 @@ router.get('/', (req, res) => {
     })
 })
 
-router.get('/', passport.authenticate('jwt', { session: false }), savedController.getSaved) // ADMIN
-router.post('/', passport.authenticate('jwt', { session: false }), savedController.addSaved) // ADMIN
+router.get('/me', passport.authenticate('jwt', { session: false }), savedController.getSaved) // ADMIN
+router.post('/me', passport.authenticate('jwt', { session: false }), savedController.addSaved) // ADMIN
 
 router.get('*', (req, res) => {
     res.redirect('/profile')
