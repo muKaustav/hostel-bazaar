@@ -1,7 +1,9 @@
 const SavedController = require('../models/saved')
 
 let getSaved = (req, res) => {
-    SavedController.find({})
+    let userId = req.user._id
+
+    SavedController.find({ userId: userId })
         .populate('items.product')
         .exec((err, cart) => {
             if (err) {
