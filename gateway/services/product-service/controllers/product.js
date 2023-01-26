@@ -39,7 +39,7 @@ let getProducts = async (req, res) => {
                 res.send(JSON.parse(products))
             } else { // Cache miss
                 console.log("Cache miss")
-                ProductModel.find({ hostel: hostel })
+                ProductModel.find({ hostel: hostel, quantity: { $gt: 0 } })
                     .populate('hostel category sellerId')
                     .exec((err, products) => {
                         if (err) {
@@ -193,6 +193,11 @@ let buy = async (req, res) => {
     for (let i = 0; i < products.length; i++) {
         let product = await ProductModel.findById(products[i].product)
         products[i].price = product.price
+
+        if (product.quantity < products[i].quantity) {
+            res.send({ message: "Insufficient quantity", status: 400 })
+            return
+        }
 
         product.quantity -= products[i].quantity
         product.save()
