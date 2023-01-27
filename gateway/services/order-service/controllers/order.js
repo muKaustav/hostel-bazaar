@@ -40,7 +40,7 @@ let getOrder = (req, res) => {
                     })
                     .exec((err, order) => {
                         if (err) {
-                            return res.status(500).send
+                            return res.status(500).send(err)
                         } else if (!order) {
                             return res.status(404).send('Not Found')
                         } else if (userRole === 'ADMIN') {
@@ -88,18 +88,18 @@ let getOrders = (req, res) => {
                     })
                     .exec((err, orders) => {
                         if (err) {
-                            return res.status(500).send
+                            return res.status(500).send(err)
                         } else if (orders.length === 0) {
-                            redisClient.setEx(cacheKey, 10, JSON.stringify(orders))
                             return res.status(404).send('Not Found')
                         }
-
+                        
+                        redisClient.setEx(cacheKey, 10, JSON.stringify(orders))
                         return res.status(200).send(orders)
                     })
             }
         })
     } catch (err) {
-        res.status(500).send
+        res.status(500).send(err)
     }
 }
 
@@ -125,7 +125,7 @@ let getAllOrders = (req, res) => {
                 })
                 .exec((err, orders) => {
                     if (err) {
-                        return res.status(500).send
+                        return res.status(500).send(err)
                     }
 
                     return res.status(200).send(orders)
@@ -154,7 +154,7 @@ let editOrderStatus = (req, res) => {
                 })
                 .exec((err, order) => {
                     if (err) {
-                        return res.status(500).send
+                        return res.status(500).send(err)
                     }
 
                     return res.status(200).send(order)

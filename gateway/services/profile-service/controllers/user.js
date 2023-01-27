@@ -1,3 +1,4 @@
+const e = require('express')
 const UserModel = require('../models/user')
 
 let getUsers = (req, res) => {
@@ -31,25 +32,16 @@ let getUser = (req, res) => {
 
     try {
         UserModel.find({ _id: user._id })
-            .populate('_id name email profile_image hostel college room_number')
-            .exec((err, user) => {
+            .select('+_id +name +email +profile_image +hostel +college +room_number +UPI -password -role -__v -verificationToken -createdAt -updatedAt -refreshToken')
+            .exec((err, userDoc) => {
                 if (err) {
-                    return res.status(500).send({
-                        success: false,
-                        message: 'Internal Server Error'
-                    })
-                } else {
-                    return res.status(200).send({
-                        success: true,
-                        user: user
-                    })
+                    return res.status(500).send(err)
                 }
+
+                return res.status(200).send(userDoc)
             })
     } catch (err) {
-        return res.status(500).json({
-            success: false,
-            message: 'Internal Server Error'
-        })
+        return res.status(500).send('Internal Server Error')
     }
 }
 
@@ -58,7 +50,7 @@ let editUser = (req, res) => {
 
     try {
         UserModel.findOneAndUpdate({ _id: user._id }, req.body, { new: true })
-            .populate('_id name email profile_image hostel college room_number')
+            .select('+_id +name +email +profile_image +hostel +college +room_number +UPI -password -role -__v -verificationToken -createdAt -updatedAt -refreshToken')
             .exec((err, user) => {
                 if (err) {
                     return res.status(500).json({
@@ -67,7 +59,7 @@ let editUser = (req, res) => {
                     })
                 }
 
-                return res.status(200).json({
+                res.status(200).json({
                     success: true,
                     user: user
                 })
@@ -85,7 +77,7 @@ let deleteUser = (req, res) => {
 
     try {
         UserModel.findOneAndDelete({ _id: user._id })
-            .populate('_id name email profile_image hostel college room_number')
+            .select('+_id +name +email +profile_image +hostel +college +room_number +UPI -password -role -__v -verificationToken -createdAt -updatedAt -refreshToken')
             .exec((err, user) => {
                 if (err) {
                     return res.status(500).json({
@@ -94,7 +86,7 @@ let deleteUser = (req, res) => {
                     })
                 }
 
-                return res.status(200).json({
+                res.status(200).json({
                     success: true,
                     user: user
                 })
