@@ -207,6 +207,7 @@ let lastNOrdersByUser = (req, res) => {
                     .populate('items.product')
                     .populate({
                         path: 'items.product',
+                        select: 'UPI _id name room_number profile_image hostel college',
                         populate: {
                             path: 'sellerId'
                         }

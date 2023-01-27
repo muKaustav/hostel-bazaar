@@ -1,10 +1,9 @@
 const redis = require('redis')
 const ProductModel = require('../models/product')
 const CategoryModel = require('../models/category')
-let OrderModel = require('../models/order')
 let { jobQueue } = require('../../../jobQueue')
 let amqp = require('amqplib')
-var channel, orderId
+var channel
 
 let redisClient = redis.createClient({
     legacyMode: true,
@@ -73,7 +72,7 @@ let getProductsByCategory = async (req, res) => {
                     if (err) {
                         res.send(err)
                     } else {
-                        ProductModel.find({ hostel: hostel, category: category._id })
+                        ProductModel.find({ hostel: hostel, category: category._id, quantity: { $gt: 0 } })
                             .populate('hostel category sellerId')
                             .exec((err, products) => {
                                 if (err) {
