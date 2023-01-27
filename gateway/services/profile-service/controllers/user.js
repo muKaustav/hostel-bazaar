@@ -30,16 +30,16 @@ let getUser = (req, res) => {
     let user = req.user
 
     try {
-        UserModel.findOne({ _id: user._id })
+        UserModel.find({ _id: user._id })
             .populate('_id name email profile_image hostel college room_number')
             .exec((err, user) => {
                 if (err) {
-                    return res.status(500).json({
+                    return res.status(500).send({
                         success: false,
                         message: 'Internal Server Error'
                     })
                 } else {
-                    return res.status(200).json({
+                    return res.status(200).send({
                         success: true,
                         user: user
                     })
