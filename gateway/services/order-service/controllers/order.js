@@ -34,6 +34,10 @@ let getOrder = (req, res) => {
                             select: 'UPI _id name room_number profile_image hostel college',
                         }
                     })
+                    .populate({
+                        path: 'userId',
+                        select: 'UPI _id name room_number profile_image hostel college',
+                    })
                     .exec((err, order) => {
                         if (err) {
                             return res.status(500).send
@@ -75,8 +79,12 @@ let getOrders = (req, res) => {
                         path: 'items.product',
                         populate: {
                             path: 'sellerId',
-                            select: '_id name room_number profile_image hostel college'
+                            select: 'UPI _id name room_number profile_image hostel college',
                         }
+                    })
+                    .populate({
+                        path: 'userId',
+                        select: 'UPI _id name room_number profile_image hostel college',
                     })
                     .exec((err, orders) => {
                         if (err) {
@@ -108,8 +116,12 @@ let getAllOrders = (req, res) => {
                     path: 'items.product',
                     populate: {
                         path: 'sellerId',
-                        select: '_id name room_number profile_image hostel college'
+                        select: 'UPI _id name room_number profile_image hostel college',
                     }
+                })
+                .populate({
+                    path: 'userId',
+                    select: 'UPI _id name room_number profile_image hostel college',
                 })
                 .exec((err, orders) => {
                     if (err) {
@@ -176,6 +188,10 @@ let lastNOrders = (req, res) => {
                             select: 'UPI _id name room_number profile_image hostel college',
                         }
                     })
+                    .populate({
+                        path: 'userId',
+                        select: 'UPI _id name room_number profile_image hostel college',
+                    })
                     .exec((err, products) => {
                         if (err) {
                             return res.status(500).send(err)
@@ -215,6 +231,10 @@ let lastNOrdersByUser = (req, res) => {
                             path: 'sellerId',
                             select: 'UPI _id name room_number profile_image hostel college',
                         }
+                    })
+                    .populate({
+                        path: 'userId',
+                        select: 'UPI _id name room_number profile_image hostel college',
                     })
                     .exec((err, products) => {
                         if (err) {
