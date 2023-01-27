@@ -39,7 +39,15 @@ let getProducts = async (req, res) => {
             } else { // Cache miss
                 console.log("Cache miss")
                 ProductModel.find({ hostel: hostel, quantity: { $gt: 0 } })
-                    .populate('hostel category sellerId')
+                    .populate('category')
+                    .populate({
+                        path: 'sellerId',
+                        select: 'UPI _id name room_number profile_image hostel college',
+                    })
+                    .populate({
+                        path: 'hostel',
+                        select: '_id name college'
+                    })
                     .exec((err, products) => {
                         if (err) {
                             res.send(err)
@@ -73,7 +81,15 @@ let getProductsByCategory = async (req, res) => {
                         res.send(err)
                     } else {
                         ProductModel.find({ hostel: hostel, category: category._id, quantity: { $gt: 0 } })
-                            .populate('hostel category sellerId')
+                            .populate('category')
+                            .populate({
+                                path: 'sellerId',
+                                select: 'UPI _id name room_number profile_image hostel college',
+                            })
+                            .populate({
+                                path: 'hostel',
+                                select: '_id name college'
+                            })
                             .exec((err, products) => {
                                 if (err) {
                                     res.send(err)
@@ -106,7 +122,15 @@ let getProduct = async (req, res) => {
             } else { // Cache miss
                 ProductModel.findOneAndUpdate
                     ({ _id: productId }, { $inc: { visits: 1 } }, { new: true })
-                    .populate('hostel category sellerId')
+                    .populate('category')
+                    .populate({
+                        path: 'sellerId',
+                        select: 'UPI _id name room_number profile_image hostel college',
+                    })
+                    .populate({
+                        path: 'hostel',
+                        select: '_id name college'
+                    })
                     .exec((err, product) => {
                         if (err) {
                             res.send(err)

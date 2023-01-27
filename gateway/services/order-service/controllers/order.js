@@ -30,7 +30,8 @@ let getOrder = (req, res) => {
                     .populate({
                         path: 'items.product',
                         populate: {
-                            path: 'sellerId'
+                            path: 'sellerId',
+                            select: 'UPI _id name room_number profile_image hostel college',
                         }
                     })
                     .exec((err, order) => {
@@ -73,7 +74,8 @@ let getOrders = (req, res) => {
                     .populate({
                         path: 'items.product',
                         populate: {
-                            path: 'sellerId'
+                            path: 'sellerId',
+                            select: '_id name room_number profile_image hostel college'
                         }
                     })
                     .exec((err, orders) => {
@@ -105,7 +107,8 @@ let getAllOrders = (req, res) => {
                 .populate({
                     path: 'items.product',
                     populate: {
-                        path: 'sellerId'
+                        path: 'sellerId',
+                        select: '_id name room_number profile_image hostel college'
                     }
                 })
                 .exec((err, orders) => {
@@ -169,7 +172,8 @@ let lastNOrders = (req, res) => {
                     .populate({
                         path: 'items.product',
                         populate: {
-                            path: 'sellerId'
+                            path: 'sellerId',
+                            select: 'UPI _id name room_number profile_image hostel college',
                         }
                     })
                     .exec((err, products) => {
