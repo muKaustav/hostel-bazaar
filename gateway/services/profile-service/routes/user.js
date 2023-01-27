@@ -12,7 +12,11 @@ router.get('/', (req, res) => {
     })
 })
 
-router.get('/me', passport.authenticate('jwt', { session: false }), userController.getUsers) // ADMIN
+router.get('/all', passport.authenticate('jwt', { session: false }), userController.getUsers) // ADMIN
+router.get('/me', passport.authenticate('jwt', { session: false }), userController.getUser) // USER
+router.put('/me', passport.authenticate('jwt', { session: false }), userController.editUser) // USER
+router.delete('/me', passport.authenticate('jwt', { session: false }), userController.deleteUser) // USER
+
 
 router.get('*', (req, res) => {
     res.redirect('/profile')
