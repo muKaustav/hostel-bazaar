@@ -14,6 +14,7 @@ router.get('/', (req, res) => {
 })
 
 router.get('/search/:query', passport.authenticate('jwt', { session: false }), productController.search)
+router.get('/searchUnique/:query', passport.authenticate('jwt', { session: false }), productController.searchUnique)
 router.get('/all', passport.authenticate('jwt', { session: false }), productController.getProducts)
 router.get('/category/:category', passport.authenticate('jwt', { session: false }), productController.getProductsByCategory)
 router.get('/:productId', passport.authenticate('jwt', { session: false }), productController.getProduct)

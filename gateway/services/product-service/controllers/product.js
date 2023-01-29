@@ -173,6 +173,45 @@ let search = async (req, res) => {
     let hostel = req.user.hostel
     let query = req.params.query
 
+    let cacheKey = `search_${hostel}_${query}`
+
+    try {
+        redisClient.get(cacheKey, async (err, products) => {
+            if (err) {
+                res.send(err)
+            } else if (products) { // Cache hit
+                res.send(JSON.parse(products))
+            } else { // Cache miss
+                ProductModel.aggregate([{
+                    "$search": {
+                        "autocomplete": {
+                            "query": query,
+                            "path": "name",
+                            "fuzzy": {
+                                "maxEdits": 2,
+                                "prefixLength": 3
+                            }
+                        }
+                    }
+                }]).exec((err, products) => { 
+                    if (err) {
+                        res.send(err)
+                    } else {
+                        redisClient.setEx(cacheKey, 10, JSON.stringify(products))
+                        res.send(products)
+                    }
+                })
+            }
+        })
+    } catch (err) {
+        res.status(500).send(err)
+    }
+}
+
+let searchUnique = async (req, res) => {
+    let hostel = req.user.hostel
+    let query = req.params.query
+
     let cacheKey = `products_${hostel}_${query}`
 
     try {
@@ -253,4 +292,4 @@ let buy = async (req, res) => {
     })
 }
 
-module.exports = { getProducts, getProductsByCategory, getProduct, addProduct, buy, search }
+module.exports = { getProducts, getProductsByCategory, getProduct, addProduct, buy, search, searchUnique }
