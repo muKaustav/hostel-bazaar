@@ -5,11 +5,11 @@ let getSaved = (req, res) => {
 
     SavedController.find({ userId: userId })
         .populate('items.product')
-        .exec((err, cart) => {
+        .exec((err, saved) => {
             if (err) {
                 res.send(err)
             } else {
-                res.send(cart)
+                res.send(saved)
             }
         })
 }

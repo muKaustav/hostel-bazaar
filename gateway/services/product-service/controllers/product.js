@@ -197,8 +197,24 @@ let search = async (req, res) => {
                     if (err) {
                         res.send(err)
                     } else {
-                        redisClient.setEx(cacheKey, 10, JSON.stringify(products))
-                        res.send(products)
+                        let uniqueProducts = []
+
+                        products.forEach((product) => {
+                            let found = false
+                            uniqueProducts.forEach((uniqueProduct) => {
+                                if (uniqueProduct.name == product.name) {
+                                    found = true
+                                }
+                            })
+
+                            if (!found) {
+                                uniqueProducts.push(product)
+                            }
+                        })
+
+                        redisClient.setEx(cacheKey, 10, JSON.stringify(uniqueProducts))
+
+                        res.send(uniqueProducts)
                     }
                 })
             }
