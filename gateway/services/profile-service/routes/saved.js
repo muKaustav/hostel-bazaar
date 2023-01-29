@@ -12,9 +12,10 @@ router.get('/', (req, res) => {
     })
 })
 
+router.post('/create', passport.authenticate('jwt', { session: false }), savedController.createSaved)
 router.get('/me', passport.authenticate('jwt', { session: false }), savedController.getSaved) // ADMIN
-router.post('/add', passport.authenticate('jwt', { session: false }), savedController.addSaved) 
-router.post('/rm', passport.authenticate('jwt', { session: false }), savedController.removeSaved) 
+router.post('/add', passport.authenticate('jwt', { session: false }), savedController.addSaved)
+router.post('/rm', passport.authenticate('jwt', { session: false }), savedController.removeSaved)
 
 router.get('*', (req, res) => {
     res.redirect('/profile')
