@@ -1,6 +1,7 @@
 const redis = require('redis')
 const ProductModel = require('../models/product')
 const CategoryModel = require('../models/category')
+let ReviewModel = require('../models/review')
 let { jobQueue } = require('../../../jobQueue')
 let amqp = require('amqplib')
 var channel
@@ -153,7 +154,6 @@ let addProduct = async (req, res) => {
         if (err) {
             res.send(err)
         } else {
-            // Clear cache
             redisClient.keys(`products_${product.hostel}*`, (err, keys) => {
                 if (err) {
                     console.log(err)
@@ -193,7 +193,7 @@ let search = async (req, res) => {
                             }
                         }
                     }
-                }]).exec((err, products) => { 
+                }]).exec((err, products) => {
                     if (err) {
                         res.send(err)
                     } else {
