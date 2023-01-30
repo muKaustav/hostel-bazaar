@@ -13,7 +13,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 app.use('/product', productRoutes)
-app.use('/review', reviewRoutes)
+app.use('/product/review', reviewRoutes)
 
 PORT = process.env.PORT || 5002
 
