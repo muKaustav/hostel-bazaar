@@ -23,11 +23,11 @@ router.get('/:productId', passport.authenticate('jwt', { session: false }), prod
 router.post('/', passport.authenticate('jwt', { session: false }), productController.addProduct)
 router.post('/buy', passport.authenticate('jwt', { session: false }), rawReader, productController.buy)
 
-router.get('/single', passport.authenticate('jwt', { session: false }), reviewController.getReview)
-router.get('/:productId', passport.authenticate('jwt', { session: false }), reviewController.getReviews)
-router.post('/single', passport.authenticate('jwt', { session: false }), reviewController.addReview)
-router.put('/single', passport.authenticate('jwt', { session: false }), reviewController.updateReview)
-router.delete('/single', passport.authenticate('jwt', { session: false }), reviewController.deleteReview)
+router.get('/review/single', passport.authenticate('jwt', { session: false }), reviewController.getReview)
+router.get('/review/:productId', passport.authenticate('jwt', { session: false }), reviewController.getReviews)
+router.post('/review/single', passport.authenticate('jwt', { session: false }), reviewController.addReview)
+router.put('/review/single', passport.authenticate('jwt', { session: false }), reviewController.updateReview)
+router.delete('/review/single', passport.authenticate('jwt', { session: false }), reviewController.deleteReview)
 
 router.get('*', (req, res) => {
     res.redirect('/product')
