@@ -1,4 +1,4 @@
-const e = require('express')
+const express = require('express')
 const UserModel = require('../models/user')
 
 let getUsers = (req, res) => {

@@ -85,6 +85,14 @@ module.exports = {
             TWILIO_VERIFY_SERVICE_SID: 'VAdcee4bdb8fa795d7019bb6e6bc2718ef'
         }
     }, {
+        name: "s3",
+        script: "./gateway/services/s3-service/server.js",
+        watch: true,
+        env: {
+            AWS_ACCESS_KEY_ID: 'AKIATUAFIM7HIPMZNWAU',
+            AWS_SECRET_ACCESS_KEY: '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'
+        }
+    }, {
         name: "gateway",
         script: "./gateway/server.js",
         watch: true

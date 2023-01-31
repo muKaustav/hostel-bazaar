@@ -25,6 +25,9 @@ apiEndpoints:
   otp:
     host: '65.1.2.169'
     paths: '/otp*'
+  s3:
+    host: '65.1.2.169'
+    paths: '/s3*'
 serviceEndpoints:
   httpbin:
     url: 'https://httpbin.org'
@@ -40,6 +43,8 @@ serviceEndpoints:
     url: 'http://localhost:5005'
   otpService:
     url: 'http://localhost:5006'
+  s3Service:
+    url: 'http://localhost:5007'
 policies:
   - basic-auth
   - cors
@@ -102,3 +107,10 @@ pipelines:
       - proxy:
           - action:
               serviceEndpoint: otpService
+  s3:
+    apiEndpoints:
+      - s3
+    policies:
+      - proxy:
+          - action:
+              serviceEndpoint: s3Service
