@@ -90,7 +90,8 @@ module.exports = {
         watch: true,
         env: {
             AWS_ACCESS_KEY_ID: 'AKIATUAFIM7HIPMZNWAU',
-            AWS_SECRET_ACCESS_KEY: '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'
+            AWS_SECRET_ACCESS_KEY: 'bs0jb+YxFy2SYf/hgK6Q0UMtoR0kMQyjRMRNx7P4',
+            ACCESS_TOKEN_SECRET: '8fbf236d964f9a57cee7712bb49c88b9300937f0265d125732807b44e1843fe8'
         }
     }, {
         name: "gateway",
