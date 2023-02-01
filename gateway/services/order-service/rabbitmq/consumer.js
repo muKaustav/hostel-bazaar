@@ -26,7 +26,10 @@ connect().then(() => {
             status: 'pending'
         })
 
-        newOrder.save()
+        let savedOrder = newOrder.save()
+
+        console.log({ 'order': savedOrder })
+
         channel.ack(data)
         channel.sendToQueue('PRODUCT', Buffer.from(JSON.stringify({ newOrder })))
     })

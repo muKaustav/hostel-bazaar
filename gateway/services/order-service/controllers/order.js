@@ -92,7 +92,7 @@ let getOrders = (req, res) => {
                         } else if (orders.length === 0) {
                             return res.status(404).send('Not Found')
                         }
-                        
+
                         redisClient.setEx(cacheKey, 10, JSON.stringify(orders))
                         return res.status(200).send(orders)
                     })
@@ -215,11 +215,11 @@ let lastNOrdersByUser = (req, res) => {
     let cacheKey = `last_n_orders_of_user_${n}` + `_userId_${req.user._id}`
 
     try {
-        redisClient.get(cacheKey, async (err, products) => {
+        redisClient.get(cacheKey, async (err, orders) => {
             if (err) {
                 return res.status(500).send(err)
-            } else if (products) { // Cache hit
-                return res.send(JSON.parse(products))
+            } else if (orders) { // Cache hit
+                return res.send(JSON.parse(orders))
             } else { // Cache miss
                 OrderModel.find({ userId: req.user._id })
                     .sort({ createdAt: -1 })
@@ -236,14 +236,15 @@ let lastNOrdersByUser = (req, res) => {
                         path: 'userId',
                         select: 'UPI _id name room_number profile_image hostel college',
                     })
-                    .exec((err, products) => {
+                    .exec((err, order) => {
                         if (err) {
                             return res.status(500).send(err)
-                        } else if (products.length === 0) {
+                        } else if (order.length === 0) {
                             return res.status(404).send('Not Found')
                         } else {
-                            redisClient.setEx(cacheKey, 10, JSON.stringify(products))
-                            return res.status(200).send(products)
+                            console.log(order)
+                            redisClient.setEx(cacheKey, 10, JSON.stringify(order))
+                            return res.status(200).send(order)
                         }
                     })
             }
