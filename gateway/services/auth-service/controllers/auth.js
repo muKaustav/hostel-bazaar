@@ -77,7 +77,8 @@ let verify = async (req, res) => {
                 .then(() => {
                     return res.status(500).send({
                         success: true,
-                        message: 'Account verified. Cart and Saved created.'
+                        message: 'Account verified. Cart and Saved created.',
+                        refreshToken: user.refreshToken
                     })
                 })
                 .catch(err => {
