@@ -33,7 +33,7 @@ const UserSchema = new mongoose.Schema({
 
     college: { type: mongoose.Schema.Types.ObjectId, ref: "College", required: true },
 
-    UPI: { type: String, unique: true, default: null },
+    UPI: { type: String, unique: true, sparse: true, default: null },
 
     role: { type: String, enum: ["USER", "ADMIN"], default: "USER" },
 
