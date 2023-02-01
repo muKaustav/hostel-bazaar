@@ -21,6 +21,12 @@ app.post('/otp/send-otp', (req, res) => {
                     message: 'OTP sent successfully',
                     status: verification.status
                 })
+            }).catch(err => { 
+                console.log(err)
+                res.json({
+                    message: 'Error sending OTP',
+                    status: 'failed'
+                })
             })
     } catch (err) {
         console.log(err)
