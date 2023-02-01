@@ -32,7 +32,7 @@ app.post('/otp/send-otp', (req, res) => {
 
 })
 
-app.get('/otp/verify-otp', (req, res) => {
+app.post('/otp/verify-otp', (req, res) => {
     let number = req.body.number
     let otp = req.body.otp
 
