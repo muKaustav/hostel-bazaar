@@ -42,7 +42,17 @@ app.post('/otp/verify-otp', (req, res) => {
             .create({ to: number, code: otp })
             .then(verification_check => {
                 console.log(verification_check.status)
-                res.json({ message: 'OTP verified successfully' })
+                if (verification_check.status === 'approved') {
+                    res.json({
+                        message: 'OTP verified successfully',
+                        status: verification_check.status
+                    })
+                } else { 
+                    res.json({
+                        message: 'OTP verification failed',
+                        status: verification_check.status
+                    })
+                }
             })
     } catch (err) {
         console.log(err)
