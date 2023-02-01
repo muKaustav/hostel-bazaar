@@ -1,7 +1,6 @@
 const redis = require('redis')
 const ProductModel = require('../models/product')
 const CategoryModel = require('../models/category')
-let ReviewModel = require('../models/review')
 let { jobQueue } = require('../../../jobQueue')
 let amqp = require('amqplib')
 var channel
