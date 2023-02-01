@@ -42,7 +42,7 @@ app.post('/otp/verify-otp', (req, res) => {
             .create({ to: number, code: otp })
             .then(verification_check => {
                 console.log(verification_check.status)
-
+                
                 if (verification_check.status === 'approved') {
                     res.json({
                         message: 'OTP verified successfully',
@@ -53,14 +53,12 @@ app.post('/otp/verify-otp', (req, res) => {
                         message: 'OTP verification pending',
                         status: verification_check.status
                     })
-                } 
-
-                setTimeout(() => { 
+                } else {
                     res.json({
-                        message: 'OTP verification expired',
-                        status: 'expired'
+                        message: 'OTP verification failed',
+                        status: verification_check.status
                     })
-                }, 5000)
+                }
             })
     } catch (err) {
         console.log(err)
