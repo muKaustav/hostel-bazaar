@@ -20,7 +20,7 @@ module.exports = {
             AUTH_EMAIL: 'hostelbazaar22@gmail.com',
             AUTH_PASSWORD: 'thmsabwidcjczjjb',
             PORT: 5001,
-            IP: '3.110.190.83:8081',
+            IP: '65.1.2.169:8081',
             ACCESS_TOKEN_SECRET: '8fbf236d964f9a57cee7712bb49c88b9300937f0265d125732807b44e1843fe8',
             REFRESH_TOKEN_SECRET: '0356b4a3bf19b33dce343a06ea20f9266fc84587b51eb977c5e046fa76cb4fc5',
             AUTH_DB_URI: 'mongodb+srv://access:access2022@cluster0.rphmddt.mongodb.net/hb-auth',
