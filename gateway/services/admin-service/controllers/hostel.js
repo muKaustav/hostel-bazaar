@@ -1,8 +1,10 @@
 const HostelModel = require('../models/hostel')
 
 let getHostels = (req, res) => {
+    let collegeId = req.user.college
+
     try {
-        HostelModel.find({})
+        HostelModel.find({ college: collegeId })
             .exec((err, hostels) => {
                 if (err) {
                     res.send(err)
