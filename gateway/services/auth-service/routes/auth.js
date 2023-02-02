@@ -1,8 +1,8 @@
 const express = require('express')
 const passport = require('passport')
 const authController = require('../controllers/auth')
-const { refresh, deleteRefresh } = require('../auth/authService')
 const path = require('path')
+const { refresh, deleteRefresh } = require('../auth/authService')
 
 const router = express.Router()
 
@@ -24,8 +24,12 @@ router.get('/verify/:token', authController.verify)
 
 router.get('/protected', passport.authenticate('jwt', { session: false }), authController.protected)
 
-router.get('/success', (req, res) => { 
+router.get('/success', (req, res) => {
     res.sendFile(path.join(__dirname, '../public', 'verify.html'))
+})
+
+router.get('/css', (req, res) => { 
+    res.sendFile(path.join(__dirname, '../public/css', 'style.css'))
 })
 
 router.get('*', (req, res) => {
