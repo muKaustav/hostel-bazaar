@@ -22,6 +22,8 @@ router.get('/:productId', passport.authenticate('jwt', { session: false }), prod
 // router.get('/seller/:sellerId', passport.authenticate('jwt', { session: false }), productController.getProductsBySeller)
 router.post('/', passport.authenticate('jwt', { session: false }), productController.addProduct)
 router.post('/buy', passport.authenticate('jwt', { session: false }), rawReader, productController.buy)
+router.put('/:productId', passport.authenticate('jwt', { session: false }), productController.updateProduct)
+router.delete('/:productId', passport.authenticate('jwt', { session: false }), productController.deleteProduct)
 
 router.get('/review/single', passport.authenticate('jwt', { session: false }), reviewController.getReview)
 router.get('/review/:productId', passport.authenticate('jwt', { session: false }), reviewController.getReviews)

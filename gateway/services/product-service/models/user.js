@@ -14,6 +14,12 @@ const UserSchema = new mongoose.Schema({
         maxlength: 50,
     },
 
+    nickname: {
+        type: String,
+        minlength: 3,
+        maxlength: 15,
+    },
+
     email: {
         type: String,
         unique: true,
@@ -39,6 +45,8 @@ const UserSchema = new mongoose.Schema({
     UPI: { type: String, unique: true, sparse: true },
     
     role: { type: String, enum: ["USER", "ADMIN"], default: "USER" },
+
+    rating: { type: Number, default: 0 },
 
     room_number: { type: String },
 

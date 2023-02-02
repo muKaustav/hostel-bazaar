@@ -146,6 +146,7 @@ let getProduct = async (req, res) => {
     }
 }
 
+
 let addProduct = async (req, res) => {
     let product = new ProductModel(req.body)
 
@@ -166,6 +167,67 @@ let addProduct = async (req, res) => {
             res.send(product)
         }
     })
+}
+
+let updateProduct = async (req, res) => {
+    let productId = req.params.productId
+
+    try {
+        ProductModel.findByIdAndUpdate(productId, req.body, { new: true }, (err, product) => {
+            if (err) {
+                res.send(err)
+            } else {
+                redisClient.keys(`products_${product.hostel}*`, (err, keys) => {
+                    if (err) {
+                        console.log(err)
+                    } else {
+                        keys.forEach((key) => {
+                            redisClient.del(key)
+                        })
+                    }
+                })
+
+                res.send(product)
+            }
+        })
+    } catch (err) {
+        return res.status(500).json({
+            success: false,
+            message: 'Internal Server Error'
+        })
+    }
+}
+
+let deleteProduct = async (req, res) => {
+    let productId = req.params.productId
+
+    try {
+        ProductModel.findOneAndDelete({ _id: productId }, (err, product) => {
+            if (err) {
+                res.send(err)
+            } else {
+                redisClient.keys(`products_${product.hostel}*`, (err, keys) => {
+                    if (err) {
+                        console.log(err)
+                    } else {
+                        keys.forEach((key) => {
+                            redisClient.del(key)
+                        })
+                    }
+                })
+
+                res.send({
+                    success: true,
+                    message: 'Product deleted successfully'
+                })
+            }
+        })
+    } catch (err) {
+        return res.status(500).json({
+            success: false,
+            message: 'Internal Server Error'
+        })
+    }
 }
 
 let search = async (req, res) => {
@@ -291,4 +353,4 @@ let buy = async (req, res) => {
     })
 }
 
-module.exports = { getProducts, getProductsByCategory, getProduct, addProduct, buy, search, searchUnique }
+module.exports = { getProducts, getProductsByCategory, getProduct, addProduct, buy, updateProduct, deleteProduct, search, searchUnique }
