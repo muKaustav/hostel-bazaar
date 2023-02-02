@@ -4,6 +4,7 @@ let { generateAccessToken } = require('../auth/authService')
 const UserModel = require('../models/user')
 const CartModel = require('../models/cart')
 const SavedModel = require('../models/saved')
+const path = require('path')
 
 let signup = async (req, res, next) => {
     return res.status(200).send({
@@ -76,7 +77,7 @@ let verify = async (req, res) => {
             await SavedModel.create({ userId: user._id })
                 .then(() => {
                     // render page
-                    res.sendFile('verify.html', { root: '../pages' })
+                    res.sendFile(path.join(__dirname, '../pages/verify.html'))
                 })
                 .catch(err => {
                     return res.status(500).send({
