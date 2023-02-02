@@ -3,7 +3,6 @@ const passport = require('passport')
 const authController = require('../controllers/auth')
 const path = require('path')
 const { refresh, deleteRefresh } = require('../auth/authService')
-const path = require('path')
 
 const router = express.Router()
 
