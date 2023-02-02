@@ -233,8 +233,9 @@ let deleteProduct = async (req, res) => {
 let search = async (req, res) => {
     let hostel = req.user.hostel
     let query = req.params.query
+    console.log(query)
 
-    let cacheKey = `search_${hostel}_${query}`
+    let cacheKey = `products_${hostel}_${query}`
 
     try {
         redisClient.get(cacheKey, async (err, products) => {
@@ -250,7 +251,7 @@ let search = async (req, res) => {
                             "path": "name",
                             "fuzzy": {
                                 "maxEdits": 2,
-                                "prefixLength": 3
+                                "maxExpansions": 100
                             }
                         }
                     }
@@ -268,6 +269,7 @@ let search = async (req, res) => {
         res.status(500).send(err)
     }
 }
+
 
 let searchUnique = async (req, res) => {
     let hostel = req.user.hostel
@@ -299,7 +301,7 @@ let searchUnique = async (req, res) => {
                     } else {
                         let uniqueProducts = []
 
-                        products.forEach((product) => { 
+                        products.forEach((product) => {
                             let index = uniqueProducts.findIndex((uniqueProduct) => uniqueProduct.name === product.name)
 
                             if (index === -1) {
