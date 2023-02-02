@@ -58,43 +58,41 @@ let login = async (req, res, next) => {
 }
 
 let verify = async (req, res) => {
-    res.redirect('/auth/success')
-    // let { token } = req.params
+    let { token } = req.params
 
-    // const user = await UserModel.findOne({ verificationToken: token })
+    const user = await UserModel.findOne({ verificationToken: token })
 
-    // if (!user)
-    //     return res.json({ message: 'Invalid token.' })
+    if (!user)
+        return res.json({ message: 'Invalid token.' })
 
-    // user.isVerified = true
-    // user.verificationToken = null
+    user.isVerified = true
+    user.verificationToken = null
 
-    // await user.save()
+    await user.save()
 
-    // console.log("Account verified. " + user)
+    console.log("Account verified. " + user)
 
-    // await CartModel.create({ userId: user._id })
-    //     .then(async () => {
-    //         await SavedModel.create({ userId: user._id })
-    //             .then(() => {
-    //                 // render page
-    //                 res.redirect('/auth/success')
-    //             })
-    //             .catch(err => {
-    //                 return res.status(500).send({
-    //                     success: false,
-    //                     message: 'Account verified. Cart created. Saved not created.',
-    //                     error: err
-    //                 })
-    //             })
-    //     })
-    //     .catch(err => {
-    //         return res.status(500).send({
-    //             success: false,
-    //             message: 'Account verified. Cart not created.',
-    //             error: err
-    //         })
-    //     })
+    await CartModel.create({ userId: user._id })
+        .then(async () => {
+            await SavedModel.create({ userId: user._id })
+                .then(() => {
+                    res.redirect('/auth/success')
+                })
+                .catch(err => {
+                    return res.status(500).send({
+                        success: false,
+                        message: 'Account verified. Cart created. Saved not created.',
+                        error: err
+                    })
+                })
+        })
+        .catch(err => {
+            return res.status(500).send({
+                success: false,
+                message: 'Account verified. Cart not created.',
+                error: err
+            })
+        })
 }
 
 let protected = async (req, res) => {
