@@ -299,15 +299,10 @@ let searchUnique = async (req, res) => {
                     } else {
                         let uniqueProducts = []
 
-                        products.forEach((product) => {
-                            let found = false
-                            uniqueProducts.forEach((uniqueProduct) => {
-                                if (uniqueProduct.name == product.name) {
-                                    found = true
-                                }
-                            })
+                        products.forEach((product) => { 
+                            let index = uniqueProducts.findIndex((uniqueProduct) => uniqueProduct.name === product.name)
 
-                            if (!found) {
+                            if (index === -1) {
                                 uniqueProducts.push(product)
                             }
                         })
