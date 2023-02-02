@@ -36,8 +36,8 @@ let login = async (req, res, next) => {
                         let payload = { _id: user._id, email: user.email, role: user.role, college: user.college, hostel: user.hostel, room_number: user.room_number }
                         let accessToken = generateAccessToken(payload)
 
-                        let user = await UserModel.findById(user._id)
-                        let refreshToken = user.refreshToken
+                        let userDoc = await UserModel.findById(user._id)
+                        let refreshToken = userDoc.refreshToken
 
                         console.log({
                             success: true,
