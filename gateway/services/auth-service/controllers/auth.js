@@ -77,7 +77,7 @@ let verify = async (req, res) => {
             await SavedModel.create({ userId: user._id })
                 .then(() => {
                     // render page
-                    res.sendFile(path.join(__dirname, '../public/verify.html'))
+                    res.redirect('/auth/success')
                 })
                 .catch(err => {
                     return res.status(500).send({
