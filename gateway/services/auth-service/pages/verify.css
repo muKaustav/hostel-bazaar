@@ -1,0 +1,33 @@
+html,
+body {
+	height: 100%;
+	margin: 0;
+	background-color: rgb(27, 27, 27);
+}
+
+#section1 {
+	height: 90%;
+	text-align: center;
+	display: table;
+	width: 100%;
+}
+
+.code {
+    color: rgb(65, 143, 65);
+}
+
+#section1 h1 {
+	font-family: 'Poppins', sans-serif;
+	display: table-cell;
+	vertical-align: middle;
+	color: rgb(168, 168, 168);
+}
+
+.hostel {
+	margin: 0 auto;
+	color: #d4c0e2;
+}
+
+.bazaar {
+	color: #fff;
+}

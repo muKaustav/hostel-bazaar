@@ -75,11 +75,8 @@ let verify = async (req, res) => {
         .then(async () => {
             await SavedModel.create({ userId: user._id })
                 .then(() => {
-                    return res.status(500).send({
-                        success: true,
-                        message: 'Account verified. Cart and Saved created.',
-                        refreshToken: user.refreshToken
-                    })
+                    // render page
+                    res.sendFile('verify.html', { root: '../pages' })
                 })
                 .catch(err => {
                     return res.status(500).send({
