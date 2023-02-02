@@ -3,6 +3,7 @@ const passport = require('passport')
 const authController = require('../controllers/auth')
 const path = require('path')
 const { refresh, deleteRefresh } = require('../auth/authService')
+const path = require('path')
 
 const router = express.Router()
 
@@ -25,7 +26,7 @@ router.get('/verify/:token', authController.verify)
 router.get('/protected', passport.authenticate('jwt', { session: false }), authController.protected)
 
 router.get('/success', (req, res) => { 
-    res.sendFile(path.join(__dirname, 'public', 'verify.html'))
+    res.sendFile(path.join(__dirname, '../public', 'verify.html'))
 })
 
 router.get('*', (req, res) => {
