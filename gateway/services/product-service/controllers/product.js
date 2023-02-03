@@ -244,7 +244,7 @@ let search = async (req, res) => {
             } else if (products) { // Cache hit
                 res.send(JSON.parse(products))
             } else { // Cache miss
-                ProductModel.aggregate([{
+                let products = ProductModel.aggregate([{
                     "$search": {
                         "autocomplete": {
                             "query": query,
@@ -256,25 +256,24 @@ let search = async (req, res) => {
                         }
                     }
                 }])
-                    .populate({
-                        path: 'sellerId',
-                        select: 'UPI _id name room_number profile_image hostel college',
-                    })
-                    .exec((err, products) => {
-                        if (err) {
-                            res.send(err)
-                        } else {
-                            redisClient.setEx(cacheKey, 10, JSON.stringify(products))
-                            res.send(products)
-                        }
-                    })
+
+                await products.populate({
+                    path: 'sellerId',
+                    select: 'UPI _id name room_number profile_image hostel college',
+                }).exec((err, products) => {
+                    if (err) {
+                        res.send(err)
+                    } else {
+                        redisClient.setEx(cacheKey, 10, JSON.stringify(products))
+                        res.send(products)
+                    }
+                })
             }
         })
     } catch (err) {
         res.status(500).send(err)
     }
 }
-
 
 let searchUnique = async (req, res) => {
     let hostel = req.user.hostel
@@ -289,7 +288,7 @@ let searchUnique = async (req, res) => {
             } else if (products) { // Cache hit
                 res.send(JSON.parse(products))
             } else { // Cache miss
-                ProductModel.aggregate([{
+                let products = ProductModel.aggregate([{
                     "$search": {
                         "autocomplete": {
                             "query": query,
@@ -301,29 +300,29 @@ let searchUnique = async (req, res) => {
                         }
                     }
                 }])
-                    .populate({
-                        path: 'sellerId',
-                        select: 'UPI _id name room_number profile_image hostel college',
-                    })
-                    .exec((err, products) => {
-                        if (err) {
-                            res.send(err)
-                        } else {
-                            let uniqueProducts = []
 
-                            products.forEach((product) => {
-                                let index = uniqueProducts.findIndex((uniqueProduct) => uniqueProduct.name === product.name)
+                await products.populate({
+                    path: 'sellerId',
+                    select: 'UPI _id name room_number profile_image hostel college',
+                }).exec((err, products) => {
+                    if (err) {
+                        res.send(err)
+                    } else {
+                        let uniqueProducts = []
 
-                                if (index === -1) {
-                                    uniqueProducts.push(product)
-                                }
-                            })
+                        products.forEach((product) => {
+                            let index = uniqueProducts.findIndex((uniqueProduct) => uniqueProduct.name === product.name)
 
-                            redisClient.setEx(cacheKey, 10, JSON.stringify(uniqueProducts))
+                            if (index === -1) {
+                                uniqueProducts.push(product)
+                            }
+                        })
 
-                            res.send(uniqueProducts)
-                        }
-                    })
+                        redisClient.setEx(cacheKey, 10, JSON.stringify(uniqueProducts))
+
+                        res.send(uniqueProducts)
+                    }
+                })
             }
         })
     } catch (err) {
