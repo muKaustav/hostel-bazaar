@@ -244,7 +244,7 @@ let search = async (req, res) => {
             } else if (products) { // Cache hit
                 res.send(JSON.parse(products))
             } else { // Cache miss
-                let products = ProductModel.aggregate([{
+                let products = await ProductModel.aggregate([{
                     "$search": {
                         "autocomplete": {
                             "query": query,
@@ -257,10 +257,10 @@ let search = async (req, res) => {
                     }
                 }])
 
-                await products.populate({
+                await ProductModel.populate(products, {
                     path: 'sellerId',
-                    select: 'UPI _id name room_number profile_image hostel college',
-                }).exec((err, products) => {
+                    select: 'UPI _id name room_number profile_image hostel college'
+                }, (err, products) => {
                     if (err) {
                         res.send(err)
                     } else {
@@ -288,7 +288,7 @@ let searchUnique = async (req, res) => {
             } else if (products) { // Cache hit
                 res.send(JSON.parse(products))
             } else { // Cache miss
-                let products = ProductModel.aggregate([{
+                let products = await ProductModel.aggregate([{
                     "$search": {
                         "autocomplete": {
                             "query": query,
@@ -301,10 +301,10 @@ let searchUnique = async (req, res) => {
                     }
                 }])
 
-                await products.populate({
+                await ProductModel.populate(products, {
                     path: 'sellerId',
                     select: 'UPI _id name room_number profile_image hostel college',
-                }).exec((err, products) => {
+                }, (err, products) => {
                     if (err) {
                         res.send(err)
                     } else {
