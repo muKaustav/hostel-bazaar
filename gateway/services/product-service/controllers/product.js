@@ -255,14 +255,19 @@ let search = async (req, res) => {
                             }
                         }
                     }
-                }]).exec((err, products) => {
-                    if (err) {
-                        res.send(err)
-                    } else {
-                        redisClient.setEx(cacheKey, 10, JSON.stringify(products))
-                        res.send(products)
-                    }
-                })
+                }])
+                    .populate({
+                        path: 'sellerId',
+                        select: 'UPI _id name room_number profile_image hostel college',
+                    })
+                    .exec((err, products) => {
+                        if (err) {
+                            res.send(err)
+                        } else {
+                            redisClient.setEx(cacheKey, 10, JSON.stringify(products))
+                            res.send(products)
+                        }
+                    })
             }
         })
     } catch (err) {
@@ -295,25 +300,30 @@ let searchUnique = async (req, res) => {
                             }
                         }
                     }
-                }]).exec((err, products) => {
-                    if (err) {
-                        res.send(err)
-                    } else {
-                        let uniqueProducts = []
+                }])
+                    .populate({
+                        path: 'sellerId',
+                        select: 'UPI _id name room_number profile_image hostel college',
+                    })
+                    .exec((err, products) => {
+                        if (err) {
+                            res.send(err)
+                        } else {
+                            let uniqueProducts = []
 
-                        products.forEach((product) => {
-                            let index = uniqueProducts.findIndex((uniqueProduct) => uniqueProduct.name === product.name)
+                            products.forEach((product) => {
+                                let index = uniqueProducts.findIndex((uniqueProduct) => uniqueProduct.name === product.name)
 
-                            if (index === -1) {
-                                uniqueProducts.push(product)
-                            }
-                        })
+                                if (index === -1) {
+                                    uniqueProducts.push(product)
+                                }
+                            })
 
-                        redisClient.setEx(cacheKey, 10, JSON.stringify(uniqueProducts))
+                            redisClient.setEx(cacheKey, 10, JSON.stringify(uniqueProducts))
 
-                        res.send(uniqueProducts)
-                    }
-                })
+                            res.send(uniqueProducts)
+                        }
+                    })
             }
         })
     } catch (err) {
