@@ -200,7 +200,7 @@ let lastNOrders = (req, res) => {
                         if (err) {
                             return res.status(500).send(err)
                         } else if (products.length === 0) {
-                            return res.status(404).send('Not Found')
+                            return res.status(404).send([])
                         } else {
                             redisClient.setEx(cacheKey, 10, JSON.stringify(products))
                             return res.status(200).send(products)
