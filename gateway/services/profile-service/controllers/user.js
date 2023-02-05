@@ -45,6 +45,27 @@ let getUser = (req, res) => {
     }
 }
 
+let getUserById = (req, res) => {
+    let user = req.params.id
+
+    try {
+        UserModel.find({ _id: user })
+            .select('+_id +name +email +profile_image +hostel +college +room_number +UPI -password -role -__v -verificationToken -createdAt -updatedAt -refreshToken')
+            .exec((err, userDoc) => {
+                if (err) {
+                    return res.status(500).send(err)
+                }
+
+                return res.status(200).send(userDoc)
+            })
+    } catch (err) {
+        return res.status(500).json({
+            success: false,
+            message: 'Internal Server Error'
+        })
+    }
+}
+
 let editUser = (req, res) => {
     let user = req.user
 
@@ -99,4 +120,4 @@ let deleteUser = (req, res) => {
     }
 }
 
-module.exports = { getUsers, getUser, editUser, deleteUser }
+module.exports = { getUsers, getUser, editUser, deleteUser, getUserById }

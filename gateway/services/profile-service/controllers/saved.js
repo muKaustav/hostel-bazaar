@@ -74,17 +74,17 @@ let removeSaved = async (req, res) => {
         const userId = req.user._id
 
         const saved = await SavedModel.findOne({ userId: userId })
-        
+
         if (!saved) {
             return res.status(404).json({ message: 'Saved document not found' })
         }
-        
+
         const { itemId } = req.body
-        
+
         saved.items = saved.items.filter(i => i.product.toString() !== itemId.toString())
-        
+
         await saved.save()
-        
+
         return res.status(200).json({ message: 'Item removed from saved items', saved })
     } catch (error) {
         return res.status(500).json({ message: 'Error removing item from saved items', error })

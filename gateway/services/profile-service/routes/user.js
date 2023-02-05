@@ -16,6 +16,7 @@ router.get('/all', passport.authenticate('jwt', { session: false }), userControl
 router.get('/me', passport.authenticate('jwt', { session: false }), userController.getUser) // USER
 router.put('/me', passport.authenticate('jwt', { session: false }), userController.editUser) // USER
 router.delete('/me', passport.authenticate('jwt', { session: false }), userController.deleteUser) // USER
+router.get('/:id', passport.authenticate('jwt', { session: false }), userController.getUserById) // USER
 
 
 router.get('*', (req, res) => {
