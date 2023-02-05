@@ -17,7 +17,7 @@ router.get('/', (req, res) => {
 router.post('/signup', passport.authenticate('signup', { session: false }), authController.signup)
 router.post('/login', authController.login)
 
-router.get('/refresh', refresh)
+router.post('/refresh', refresh)
 router.delete('/refresh', deleteRefresh)
 
 router.get('/verify/:token', authController.verify)
