@@ -22,7 +22,6 @@ let addCollege = (req, res) => {
         if (err) {
             res.send(err)
         } else {
-            redisClient.del('colleges')
             res.send(college)
         }
     })

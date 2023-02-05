@@ -22,7 +22,6 @@ let addCategory = (req, res) => {
         if (err) {
             res.send(err)
         } else {
-            redisClient.del('categories')
             res.send(category)
         }
     })
