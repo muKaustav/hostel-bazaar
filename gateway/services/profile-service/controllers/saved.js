@@ -43,7 +43,7 @@ let getSaved = (req, res) => {
 
 let addSaved = async (req, res) => {
     try {
-        const userId = req.user._id
+        let userId = req.body.userId
 
         const saved = await SavedModel.findOne({ userId: userId })
 
