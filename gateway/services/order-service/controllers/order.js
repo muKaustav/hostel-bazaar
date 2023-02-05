@@ -239,7 +239,7 @@ let lastNOrdersByUser = (req, res) => {
             if (err) {
                 return res.status(500).send(err)
             } else if (order.length === 0) {
-                return res.status(404).send('Not Found')
+                return res.status(404).send([])
             } else {
                 console.log(order)
                 return res.status(200).send(order)
