@@ -247,4 +247,33 @@ let lastNOrdersByUser = (req, res) => {
         })
 }
 
-module.exports = { getOrder, getOrders, getAllOrders, editOrderStatus, lastNOrders, lastNOrdersByUser }
+let getPendingOrdersOfUser = (req, res) => {
+    OrderModel.find({ status: 'pending' })
+        .populate('items.product')
+        .populate({
+            path: 'items.product',
+            populate: {
+                path: 'sellerId',
+                select: 'UPI _id name room_number profile_image hostel college',
+            }
+        })
+        .exec((err, orders) => {
+            if (err) {
+                return res.status(500).send(err)
+            } else {
+                let pendingOrders = []
+
+                for (let i = 0; i < orders.length; i++) {
+                    for (let j = 0; j < orders[i].items.length; j++) {
+                        if (orders[i].items[j].product.sellerId._id.toString() === req.user._id.toString()) {
+                            pendingOrders.push(orders[i])
+                        }
+                    }
+                }
+
+                return res.status(200).send(pendingOrders)
+            }
+        })
+}
+
+module.exports = { getOrder, getOrders, getAllOrders, editOrderStatus, lastNOrders, lastNOrdersByUser, getPendingOrdersOfUser }

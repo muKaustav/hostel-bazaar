@@ -16,8 +16,9 @@ router.get('/me', passport.authenticate('jwt', { session: false }), orderControl
 router.get('/all', passport.authenticate('jwt', { session: false }), orderController.getAllOrders)
 router.get('/last/:n', passport.authenticate('jwt', { session: false }), orderController.lastNOrders)
 router.get('/user/last/:n', passport.authenticate('jwt', { session: false }), orderController.lastNOrdersByUser)
-router.get('/:orderId', passport.authenticate('jwt', { session: false }), orderController.getOrder)
+router.get('/pending', passport.authenticate('jwt', { session: false }), orderController.getPendingOrdersOfUser)
 router.put('/editStatus', passport.authenticate('jwt', { session: false }), orderController.editOrderStatus)
+router.get('/:orderId', passport.authenticate('jwt', { session: false }), orderController.getOrder)
 
 router.get('*', (req, res) => {
     res.redirect('/order')
