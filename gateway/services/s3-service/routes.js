@@ -5,6 +5,13 @@ const multerS3 = require('multer-s3')
 const express = require('express')
 const passport = require('passport')
 const router = express.Router()
+const Imagekit = require('imagekit')
+
+const imagekit = new Imagekit({
+    publicKey: 'public_jBcJiauo9ub1zRYKp0V76V4ooLA=',
+    privateKey: 'private_woQs88zWdfP5k+hRLi1eNlH5UxI=',
+    urlEndpoint: 'https://ik.imagekit.io/lfzjxziqh/',
+})
 
 aws.config.update({
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
@@ -27,7 +34,7 @@ let upload = multer({
     storage: multerS3({
         ACL: 'public-read',
         s3,
-        bucket: 'hostel-bazaar',
+        bucket: 'imgkithb',
         metadata: (req, file, cb) => {
             cb(null, { fieldName: 'TESTING_METADATA' })
         },
@@ -41,43 +48,37 @@ let upload = multer({
 const singleUpload = upload.single('image')
 
 router.post('/image-upload', passport.authenticate('jwt', { session: false }), (req, res) => {
-    singleUpload(req, res, (err) => {
+    singleUpload(req, res, async (err) => {
         if (err) {
             return res.status(422).send({ errors: [{ title: 'Image Upload Error', detail: err.message }] })
         }
 
-        return res.json({ 'imageUrl': req.file.location })
+        let url = imagekit.url({
+            path: "/" + req.file.key,
+        })
+
+        return res.json({ 'imageUrl': url })
     })
 })
 
 router.get('/get-url', passport.authenticate('jwt', { session: false }), (req, res) => {
-    const params = {
-        Bucket: 'hostel-bazaar',
-        Key: req.query.key
-    }
+    let key = req.query.key
 
-    s3.getSignedUrl('getObject', params, (err, url) => {
-        if (err) {
-            console.log(err, err.stack)
-        } else {
-            res.json({ 'imageUrl': url })
-        }
+    let imageURL = imagekit.url({
+        path: "/" + key,
+        urlEndpoint: "https://ik.imagekit.io/lfzjxziqh/"
     })
+
+    return res.json({ 'imageUrl': imageURL })
 })
 
 router.delete('/delete', passport.authenticate('jwt', { session: false }), (req, res) => {
-    const params = {
-        Bucket: 'hostel-bazaar',
-        Key: req.query.key
-    }
+    let key = req.query.key
 
-    s3.deleteObject(params, (err, data) => {
-        if (err) {
-            console.log(err, err.stack)
-        } else {
-            console.log(data)
-            res.json({ 'message': 'Image deleted successfully' })
-        }
+    imagekit.deleteFile(key).then((response) => {
+        res.json({ 'message': 'Image deleted successfully!' })
+    }).catch((error) => {
+        res.json({ 'message': 'Image deletion failed!' })
     })
 })
 
