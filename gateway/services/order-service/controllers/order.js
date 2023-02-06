@@ -90,7 +90,7 @@ let getOrders = (req, res) => {
                         if (err) {
                             return res.status(500).send(err)
                         } else if (orders.length === 0) {
-                            return res.status(404).send('Not Found')
+                            return res.status(404).send([])
                         }
 
                         redisClient.setEx(cacheKey, 10, JSON.stringify(orders))

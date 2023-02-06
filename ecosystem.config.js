@@ -89,10 +89,10 @@ module.exports = {
         script: "./gateway/services/s3-service/server.js",
         watch: true,
         env: {
-		AWS_ACCESS_KEY_ID:'AKIATUAFIM7HNX7IH64N',
-		AWS_SECRET_ACCESS_KEY:'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',
-		ACCESS_TOKEN_SECRET:'8fbf236d964f9a57cee7712bb49c88b9300937f0265d125732807b44e1843fe8'
-	}
+            AWS_ACCESS_KEY_ID: 'AKIATUAFIM7HNX7IH64N',
+            AWS_SECRET_ACCESS_KEY: '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',
+            ACCESS_TOKEN_SECRET: '8fbf236d964f9a57cee7712bb49c88b9300937f0265d125732807b44e1843fe8'
+        }
     }, {
         name: "gateway",
         script: "./gateway/server.js",
