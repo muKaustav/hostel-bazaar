@@ -12,12 +12,12 @@ passport.use('signup',
     new localStrategy({ usernameField: 'email', passwordField: 'password', passReqToCallback: true },
         async (req, email, password, done) => {
             try {
-                const { name, college, profile_image, hostel, room_number, role } = req.body
+                const { name, college, profile_image, hostel, room_number, role, UPI, contact } = req.body
 
                 password = await bcrypt.hash(password, 10)
                 emailVerificationToken = uuidv4()
 
-                await UserModel.create({ name, email, password, college, verificationToken: emailVerificationToken, isVerified: false, profile_image, hostel, room_number, role })
+                await UserModel.create({ name, email, password, college, verificationToken: emailVerificationToken, isVerified: false, profile_image, hostel, room_number, role, UPI, contact })
                     .then(async (user) => {
                         let refreshToken = generateRefreshToken({ _id: user._id, email: user.email })
 

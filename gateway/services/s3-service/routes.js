@@ -1,11 +1,11 @@
 require('dotenv').config()
 const aws = require('aws-sdk')
 const multer = require('multer')
-const multerS3 = require('multer-s3')
 const express = require('express')
-const passport = require('passport')
-const router = express.Router()
 const Imagekit = require('imagekit')
+const passport = require('passport')
+const multerS3 = require('multer-s3')
+const router = express.Router()
 
 const imagekit = new Imagekit({
     publicKey: 'public_jBcJiauo9ub1zRYKp0V76V4ooLA=',

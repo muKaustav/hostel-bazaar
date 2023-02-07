@@ -29,6 +29,8 @@ const UserSchema = new mongoose.Schema({
 
     password: { type: String },
 
+    contact: { type: String, unique: true, sparse: true },
+
     verificationToken: { type: String },
 
     isVerified: { type: Boolean, default: false },
