@@ -265,6 +265,10 @@ let getPendingOrdersOfUser = (req, res) => {
 
                 for (let i = 0; i < orders.length; i++) {
                     for (let j = 0; j < orders[i].items.length; j++) {
+                        if (orders[i].items[j].product === null) { 
+                            continue
+                        }
+
                         if (orders[i].items[j].product.sellerId._id.toString() === req.user._id.toString()) {
                             pendingOrders.push(orders[i])
                         }
