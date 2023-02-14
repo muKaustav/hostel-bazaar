@@ -254,7 +254,7 @@ let getPendingOrdersOfUser = (req, res) => {
             path: 'items.product',
             populate: {
                 path: 'sellerId',
-                select: 'UPI _id name room_number profile_image hostel college',
+                select: 'UPI contact _id name room_number profile_image hostel college',
             }
         })
         .exec((err, orders) => {

@@ -70,8 +70,8 @@ let editUser = (req, res) => {
     let user = req.user
 
     try {
+        console.log(user._id)
         UserModel.findOneAndUpdate({ _id: user._id }, req.body, { new: true })
-            .select('+_id +name +email +profile_image +hostel +college +room_number +UPI -password -role -__v -verificationToken -createdAt -updatedAt -refreshToken')
             .exec((err, user) => {
                 if (err) {
                     return res.status(500).json({
