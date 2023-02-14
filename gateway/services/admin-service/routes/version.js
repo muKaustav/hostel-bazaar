@@ -12,7 +12,7 @@ router.get('/', (req, res) => {
 
 router.get('/current', (req, res) => {
     res.json({
-        version: '1.0.0+1'
+        version: '1.0.0+5'
     })
 })
 
