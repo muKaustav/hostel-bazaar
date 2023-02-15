@@ -2,6 +2,8 @@ const mongoose = require('mongoose')
 let Hostel = require('./hostel')
 let User = require('./user')
 
+let orderDB = mongoose.createConnection(process.env.ORDER_DB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+
 const ProductSchema = new mongoose.Schema({
     name: {
         type: String,

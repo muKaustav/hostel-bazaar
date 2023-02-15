@@ -1,6 +1,5 @@
 var bcrypt = require("bcryptjs")
 const mongoose = require("mongoose")
-mongoose.set('strictQuery', true)
 const validator = require('validator')
 
 const UserSchema = new mongoose.Schema({

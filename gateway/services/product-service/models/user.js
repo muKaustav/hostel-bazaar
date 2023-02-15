@@ -41,11 +41,11 @@ const UserSchema = new mongoose.Schema({
     profile_image: { type: String, default: "default.jpg" },
 
     hostel: { type: mongoose.Schema.Types.ObjectId, ref: Hostel, required: true },
-    
+
     college: { type: mongoose.Schema.Types.ObjectId, ref: College, required: true },
 
     UPI: { type: String, unique: true, sparse: true },
-    
+
     role: { type: String, enum: ["USER", "ADMIN"], default: "USER" },
 
     rating: { type: Number, default: 0 },

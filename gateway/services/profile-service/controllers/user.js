@@ -1,5 +1,6 @@
 const express = require('express')
 const UserModel = require('../models/user')
+const ProductModel = require('../models/product')
 
 let getUsers = (req, res) => {
     let user = req.user
@@ -93,29 +94,21 @@ let editUser = (req, res) => {
     }
 }
 
-let deleteUser = (req, res) => {
+let deleteUser = async (req, res) => {
     let user = req.user
 
     try {
-        UserModel.findOneAndDelete({ _id: user._id })
-            .select('+_id +name +email +profile_image +hostel +college +room_number +UPI -password -role -__v -verificationToken -createdAt -updatedAt -refreshToken')
-            .exec((err, user) => {
-                if (err) {
-                    return res.status(500).json({
-                        success: false,
-                        message: 'Internal Server Error'
-                    })
-                }
+        await UserModel.deleteOne({ _id: user._id })
+        await ProductModel.deleteMany({ sellerId: user._id })
 
-                res.status(200).json({
-                    success: true,
-                    user: user
-                })
-            })
+        return res.status(200).json({
+            success: true,
+            message: 'User deleted successfully'
+        })
     } catch (err) {
         return res.status(500).json({
             success: false,
-            message: 'Internal Server Error'
+            message: err
         })
     }
 }
