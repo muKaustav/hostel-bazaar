@@ -1,6 +1,7 @@
 const express = require('express')
 const UserModel = require('../models/user')
 const ProductModel = require('../models/product')
+const OrderModel = require('../models/order')
 
 let getUsers = (req, res) => {
     let user = req.user
@@ -100,6 +101,7 @@ let deleteUser = async (req, res) => {
     try {
         await UserModel.deleteOne({ _id: user._id })
         await ProductModel.deleteMany({ sellerId: user._id })
+        await OrderModel.deleteMany({ userId: user._id })
 
         return res.status(200).json({
             success: true,
