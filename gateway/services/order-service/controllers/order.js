@@ -185,7 +185,7 @@ let lastNOrders = (req, res) => {
                         path: 'items.product',
                         populate: {
                             path: 'sellerId',
-                            select: 'UPI _id name room_number profile_image hostel college',
+                            select: 'UPI contact _id name room_number profile_image hostel college',
                             populate: {
                                 path: 'hostel',
                                 select: '+name -_id -address -college -description -image -phoneNumbers -createdAt -updatedAt -__v'
@@ -224,7 +224,7 @@ let lastNOrdersByUser = (req, res) => {
             path: 'items.product',
             populate: {
                 path: 'sellerId',
-                select: 'UPI _id name room_number profile_image hostel college',
+                select: 'UPI contact _id name room_number profile_image hostel college',
                 populate: {
                     path: 'hostel',
                     select: '+name -_id -address -college -description -image -phoneNumbers -createdAt -updatedAt -__v'
