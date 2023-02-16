@@ -72,7 +72,8 @@ module.exports = {
             PROFILE_DB_URI: 'mongodb+srv://access:access2022@cluster0.rphmddt.mongodb.net/hb-profile',
             HOSTEL_DB_URI: 'mongodb+srv://access:access2022@cluster0.rphmddt.mongodb.net/hb-profile',
             CATEGORY_DB_URI: 'mongodb+srv://access:access2022@cluster0.rphmddt.mongodb.net/hb-products',
-            COLLEGE_DB_URI: 'mongodb+srv://access:access2022@cluster0.rphmddt.mongodb.net/hb-profile'
+            COLLEGE_DB_URI: 'mongodb+srv://access:access2022@cluster0.rphmddt.mongodb.net/hb-profile',
+            ORDER_DB_URI: 'mongodb+srv://access:access2022@cluster0.rphmddt.mongodb.net/hb-order'
         }
     }, {
         name: "otp",
