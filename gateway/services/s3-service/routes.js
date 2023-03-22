@@ -53,9 +53,7 @@ router.post('/image-upload', passport.authenticate('jwt', { session: false }), (
             return res.status(422).send({ errors: [{ title: 'Image Upload Error', detail: err.message }] })
         }
 
-        let url = imagekit.url({
-            path: "/" + req.file.key,
-        })
+        let url = imagekit.url({ path: "/" + req.file.key })
 
         return res.json({ 'imageUrl': url })
     })
