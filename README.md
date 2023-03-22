@@ -1,82 +1,36 @@
-<h1 align="center">ShortURL: A URL Shortening service 🔗</h1>
+<h1 align="center">Hostel Bazaar: E-commerce for the Hostel 🔗</h1>
 <p align = center>
-    <img alt="Project Logo" src="https://raw.githubusercontent.com/muKaustav/ShortURL/master/client/src/assets/images/shorurl.jpg" target="_blank" />
+    <img alt="Project Logo" src="https://raw.githubusercontent.com/muKaustav/hostel-bazaar/main/assets/hbgithub.jpg" target="_blank" />
 </p>
-<h2 align='center'>A distributed and highly available URL Shortener.</h2><br/>
+<h2 align='center'>A microserviced e-commerce application.</h2><br/>
 
 ## 📚 | Introduction
 
-- ShortURL is a distributed and highly available URL Shortening service, built on the MERN stack.
+- Hostel Bazaar is an e-commerce application built with microservices in mind.
 - It uses Redis as a cache, and MongoDB as a NoSQL database.
-- It uses Nginx that acts as a load balancer, and a reverse proxy for the backend server.
-- It uses Apache ZooKeeper to provide tokens for hash generation, and eliminates race conditions between nodes.
-- The entire application is containerized by Docker, and orchestrated by k8s.
+- It uses express-gateway that acts as a API Gateway for the microservices.
+- It uses RabbitMQ as a message broker for asynchronous communication between microservices.
 
 ### _**Disclaimer**_
 
-- This is a demo application of a URL Shortener following the guidelines of efficient System Design.
-- This is a project demonstrating the entire development process and is meant to be run in a local environment.
+- This is a demo application of an E-commerce application following the guidelines of the [Microservices Architecture](https://microservices.io/patterns/microservices.html) pattern.
 
 <br/>
 
 ## 🚀 | Usage
 
-- Install Docker Desktop and enable Kubernetes for a quick setup.
-- Clone this repository:<br>
+- Install Docker Desktop and NodeJS for a quick setup.
+- Clone this repository:<br>    
 
 ```sh
-git clone https://github.com/muKaustav/ShortURL.git
+git clone https://github.com/muKaustav/hostel-bazaar.git
 ```
 
-- Create a .env file with the following variables:
+- Find the .env.example file in the root directory and rename it to .env.<br>
 
-```js
-REACT_APP_MONGODB_URI="<enter your MongoDB URI>"
-REACT_APP_REDIS_PORT=1111 (defaults to 6379)
-REACT_APP_REDIS_HOST='redis-server' (name it as you like, but change the same in the docker-compose.yml file)
-```
-
-- Open the project folder and start the container with docker compose:<br>
-
-```yml
-docker compose up --build
-
-# We can also scale instances of an image for higher scalability or distribution.
-Example: docker compose up --build --scale node-server=3
-```
-
-- Or use Kubernetes as a container orchestrator:<br>
-
-```yml
-kubectl apply -f k8s/
-```
+- Fill in the required environment variables in the .env file.<br>
 
 - Enjoy the project! 😉
-
-<br/>
-
-## 🌐 | API Endpoints
-
-```yml
-GET:
-    /url/:identifier : Get the shortened URL from DB
-    /del : Delete the Zookeeper token
-POST:
-    /url [body : {"OriginalUrl" : "url"}] : Shorten the URL and store in DB
-
-
-Access the API using the following URLs:
-    Client: http://localhost:3000/
-    Load Balanced Server: http://localhost:4000/
-```
-
-## 📺 | Demonstration
-
-<p align = center>
-    
-![trim](https://user-images.githubusercontent.com/50882624/154680953-a41c84e3-6512-4fdf-8b3c-b8856f3c5842.gif)
-
-</p>
 
 <br/>
 
