@@ -37,8 +37,7 @@ git clone https://github.com/muKaustav/hostel-bazaar.git
 ## 📘 | System Design Schematic
 
 <p align = center>
-    <img alt="getURL" src="https://raw.githubusercontent.com/muKaustav/ShortURL/master/client/src/assets/images/getURLs.png" target="_blank" />
-    <img alt="redirect" src="https://raw.githubusercontent.com/muKaustav/ShortURL/master/client/src/assets/images/redirect.png" target="_blank" />
+    <img alt="getURL" src="https://raw.githubusercontent.com/muKaustav/hostel-bazaar/main/assets/architecture.png" target="_blank" />
 </p>
 
 <br/>
