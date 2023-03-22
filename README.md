@@ -45,7 +45,7 @@ git clone https://github.com/muKaustav/hostel-bazaar.git
 ## 🍻 | Contributing
 
 Contributions, issues and feature requests are welcome.<br>
-Feel free to check [issues page](https://github.com/muKaustav/ShortURL/issues) if you want to contribute.
+Feel free to check [issues page](https://github.com/muKaustav/hostel-bazaar/issues) if you want to contribute.
 
 <br/>
 
@@ -67,6 +67,6 @@ Drop a ⭐️ if this project helped you!
 ## 📝 | License
 
 Copyright © 2021 [Kaustav Mukhopadhyay](https://github.com/muKaustav).<br />
-This project is [MIT](./LICENSE) licensed.
+This project is [MIT](./licence) licensed.
 
 ---
