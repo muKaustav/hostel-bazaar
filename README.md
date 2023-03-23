@@ -1,4 +1,4 @@
-<h1 align="center">Hostel Bazaar: E-commerce for the Hostel 🔗</h1>
+<h1 align="center">Hostel Bazaar: E-commerce for the Hostel 🛍️</h1>
 <p align = center>
     <img alt="Project Logo" src="https://raw.githubusercontent.com/muKaustav/hostel-bazaar/main/assets/hbgithub.jpg" target="_blank" />
 </p>
