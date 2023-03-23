@@ -34,6 +34,19 @@ git clone https://github.com/muKaustav/hostel-bazaar.git
 
 <br/>
 
+## ⌛ | Let's talk about Microservices
+- **Scalability:** Microservices allow for easier scaling as each service can be scaled independently based on its load. In contrast, monolithic applications have to be scaled as a whole.
+
+- **Resilience:** Microservices offer better resilience as if one service fails, other services can continue to operate normally. In contrast, if a monolithic application fails, the entire system fails.
+
+- **Flexibility:** Microservices allow for flexibility in technology stacks as each service can use a different stack based on its specific requirements. In contrast, monolithic applications have to use the same technology stack throughout the application.
+
+- **Continuous Deployment::** Microservices make continuous deployment easier as each service can be deployed independently. In contrast, monolithic applications have to be deployed as a whole, which can be more complex and time-consuming.
+
+- **Easy maintenance:** Microservices make maintenance easier as each service can be maintained and updated independently. In contrast, monolithic applications require more effort and coordination to maintain and update.
+
+<br/>
+
 ## 📘 | System Design Schematic
 
 <p align = center>
